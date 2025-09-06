@@ -1,0 +1,75 @@
+sudo libinput list-devices
+
+Thanks for the detailed output — it confirms that your internal keyboard is:
+
+Device: AT Translated Set 2 keyboard  
+Kernel: /dev/input/event3
+
+We’ll now disable it using a udev rule that works under Wayland.
+
+
+---
+
+✅ Step-by-Step: Disable Built-in Keyboard (Wayland, KDE)
+
+1. Create a new udev rule
+
+Open a terminal and run:
+
+sudo nano /etc/udev/rules.d/00-disable-laptop-keyboard.rules
+
+2. Paste the following line:
+
+ACTION=="add", ATTRS{name}=="AT Translated Set 2 keyboard", ENV{LIBINPUT_IGNORE_DEVICE}="1"
+
+This tells the system to ignore the device when it’s detected.
+
+> ⚠️ Make sure the name is exactly "AT Translated Set 2 keyboard" (copy-paste it from your libinput list-devices output).
+
+
+
+3. Save and Exit
+
+Press Ctrl + O, then Enter to save.
+
+Press Ctrl + X to exit the editor.
+
+
+
+---
+
+4. Reload udev rules
+
+Apply the new rule with:
+
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+
+
+---
+
+5. Reboot your system
+
+reboot
+
+✅ After reboot, the built-in laptop keyboard will be disabled. You can now use your external USB keyboard without interference.
+
+
+---
+
+🔄 To Re-enable the Built-in Keyboard Later
+
+1. Delete the rule:
+
+sudo rm /etc/udev/rules.d/00-disable-laptop-keyboard.rules
+
+
+2. Reload and reboot:
+
+sudo udevadm control --reload-rules
+sudo reboot
+
+
+
+Let me know if you'd like to make this conditional (e.g. disable only when USB keyboard is plugged in).
+
