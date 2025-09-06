@@ -1,0 +1,48 @@
+#!/bin/bash
+
+WALLPAPER_DIR="/home/ameen/Pictures/wallpapers"
+
+# Define an array once, outside the loop
+POSITION=("center" "top" "left" "right" "bottom" "top-left" "top-right" "bottom-left" "bottom-right")
+
+HISTORY_FILE="/tmp/file_history.txt"
+
+FILES=("$WALLPAPER_DIR"/*.jpg "$WALLPAPER_DIR"/*.jpeg "$WALLPAPER_DIR"/*.png "$WALLPAPER_DIR"/*.gif)
+
+while true; do
+    if [ ! -f "$HISTORY_FILE" ] || [ ! -s "$HISTORY_FILE" ]; then
+        printf "%s\n" "${FILES[@]}" >"$HISTORY_FILE"
+    fi
+
+    REMAINING_FILES=()
+    while IFS= read -r line; do
+        REMAINING_FILES+=("$line")
+    done <"$HISTORY_FILE"
+
+    if [ ${#REMAINING_FILES[@]} -eq 0 ]; then
+        printf "%s\n" "${FILES[@]}" >"$HISTORY_FILE"
+        while IFS= read -r line; do
+            REMAINING_FILES+=("$lines")
+        done <"$HISTORY_FILE"
+    fi
+
+    WALLPAPER=$(shuf -n 1 -e "${REMAINING_FILES[@]}")
+
+    sed -i "/$WALLPAPER/d" "$HISTORY_FILE"
+
+    # Pick a random wallpaper
+    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.png" \) | shuf -n 1)
+
+    # Pick a random transition position
+    random_index=$((RANDOM % ${#POSITION[@]}))
+    random_position=${POSITION[$random_index]}
+
+    # Set wallpaper with random transition position
+    swww img "$WALLPAPER" --transition-fps 60 --transition-pos "$random_position" --transition-type grow --transition-duration 1
+    wal -i "$WALLPAPER"
+    # killall waybar && waybar
+
+    # Wait 10 seconds before next wallpaper
+    sleep 10
+
+done

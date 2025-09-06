@@ -1,0 +1,22 @@
+#!/bin/bash
+
+WALLPAPER_DIR="/home/ameen/Pictures/wallpapers"
+
+# Define an array once, outside the loop
+choices=("center" "top" "left" "right" "bottom" "top-left" "top-right" "bottom-left" "bottom-right")
+
+while true; do
+    # Pick a random wallpaper
+    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" \) | shuf -n 1)
+
+    # Pick a random transition position
+    random_index=$((RANDOM % ${#choices[@]}))
+    random_choice=${choices[$random_index]}
+
+    # Set wallpaper with random transition position
+    swww img "$WALLPAPER" --transition-fps 60 --transition-pos "$random_choice" --transition-type grow --transition-duration 1
+
+    # Wait 10 seconds before next wallpaper
+    sleep 60
+done
+

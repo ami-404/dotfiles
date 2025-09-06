@@ -1,0 +1,66 @@
+#!/bin/bash
+
+WALLPAPER_DIR="/home/ameen/Pictures/wallpapers"
+
+FPS=60
+TYPE="any"
+DURATION=3
+BEZIER="0.4,0.2,0.4,1.0"
+SWWW_PARAMS="--transition-fps ${FPS} --transition-type ${TYPE} --transition-duration ${DURATION} --transition-bezier ${BEZIER}"
+
+# Define an array once, outside the loop
+POSITION=("center" "top" "left" "right" "bottom" "top-left" "top-right" "bottom-left" "bottom-right")
+
+HISTORY_FILE="/tmp/file_history.txt"
+
+FILES=("$WALLPAPER_DIR"/*.jpg "$WALLPAPER_DIR"/*.jpeg "$WALLPAPER_DIR"/*.png "$WALLPAPER_DIR"/*.gif)
+
+change_wallpaper() {
+    if [ ! -f "$HISTORY_FILE" ] || [ ! -s "$HISTORY_FILE" ]; then
+        printf "%s\n" "${FILES[@]}" >"$HISTORY_FILE"
+    fi
+
+    REMAINING_FILES=()
+    while IFS= read -r line; do
+        REMAINING_FILES+=("$line")
+    done <"$HISTORY_FILE"
+
+    if [ ${#REMAINING_FILES[@]} -eq 0 ]; then
+        printf "%s\n" "${FILES[@]}" >"$HISTORY_FILE"
+        while IFS= read -r line; do
+            REMAINING_FILES+=("$lines")
+        done <"$HISTORY_FILE"
+    fi
+
+    WALLPAPER=$(shuf -n 1 -e "${REMAINING_FILES[@]}")
+
+    sed -i "/$WALLPAPER/d" "$HISTORY_FILE"
+
+    # Pick a random wallpaper
+    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.png" \) | shuf -n 1)
+
+    # Pick a random transition position
+    random_index=$((RANDOM % ${#POSITION[@]}))
+    random_position=${POSITION[$random_index]}
+
+    # Set wallpaper with random transition position
+    swww img "$WALLPAPER"  ${SWWW_PARAMS}
+    wal -i "$WALLPAPER"
+    # killall waybar && waybar
+
+}
+
+
+  change_wallpaper
+
+  sleep 10
+
+  change_wallpaper
+
+  while true; do
+    sleep 600
+    change_wallpaper
+  done  
+
+
+done
