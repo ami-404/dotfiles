@@ -1,0 +1,28 @@
+
+(defwindow test-window
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "20%"
+                      :width "20%"
+                      :height "10%"
+                      :anchor "top center")
+  :stacking "fg"
+  :windowtype "normal"
+  :wm-ignore false
+  :focusable true  
+  :key-grab true
+
+  ;; ------------KEY BINDING ---------------
+
+  (box :class "root"
+  (key :keysym "q" :action "eww close test-window")
+  (test-widget)))
+;; (label :text "Hello World" :class "test-label")
+
+
+(defwidget test-widget []
+  (box :class "container" :orientation "v" :space-evenly true
+    (button :onclick "notify-send 'hello'" "Send Notification")
+    (button :onclick "eww close test-window" "close eww")
+    (label :text "Press any key")))
+
