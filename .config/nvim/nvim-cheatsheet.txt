@@ -1,0 +1,7 @@
+leader + lw = linewrap (My config)
+1 + ctrl+G =  show current file location
+P = paste to the line above
+0 = Moves the cursor to the first character in the line, including any leading whitespace.
+^ = Moves the cursor to the first non-blank character in the line. 
+I = Moves the cursor to the first non-blank character of the line and switches to Insert mode
+<C-r>" to paste from default unnamed register. <C-r>+ to paste from clipboard

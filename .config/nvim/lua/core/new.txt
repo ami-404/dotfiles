@@ -1,0 +1,3 @@
+ ['<leader>c'] = "set_root",
+        ['<leader>C'] = "set_cwd",
+
