@@ -1,0 +1,17 @@
+[mouse]
+hide_when_typing = false
+
+[[mouse.bindings]]
+action = "ScrollLineUp"
+mouse = "Back"
+
+[[mouse.bindings]]
+action = "ScrollLineDown"
+mouse = "Forward"
+
+[window]
+dynamic_padding = true
+
+[window.padding]
+x = 10
+y = 10

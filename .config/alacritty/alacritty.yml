@@ -1,0 +1,14 @@
+window:
+  padding:
+    x: 10 # Horizontal padding in pixels
+    y: 10 # Vertical padding in pixels
+  dynamic_padding: true # Set to true to spread additional padding evenly
+
+# Add or modify this section
+mouse:
+  bindings:
+    - { mouse: WheelUp, action: ScrollLineUp }
+    - { mouse: WheelDown, action: ScrollLineDown }
+
+  # Disable mouse history scrolling for zsh
+  hide_when_typing: false
