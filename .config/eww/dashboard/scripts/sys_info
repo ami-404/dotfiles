@@ -46,16 +46,20 @@ get_mem() {
 
 ## Get Brightness
 get_blight() {
-	CARD=`ls /sys/class/backlight | head -n 1`
+	# CARD=`ls /sys/class/backlight | head -n 1`
 
-	if [[ "$CARD" == *"intel_"* ]]; then
-		BNESS=`xbacklight -get`
-		LIGHT=${BNESS%.*}
-	else
-		BNESS=`blight -d $CARD get brightness`
-		PERC="$(($BNESS*100/255))"
+	# if [[ "$CARD" == *"intel_"* ]]; then
+	# 	BNESS=`xbacklight -get`
+	# 	LIGHT=${BNESS%.*}
+	# else
+	# 	BNESS=`blight -d $CARD get brightness`
+	# 	PERC="$(($BNESS*100/255))"
+	# 	LIGHT=${PERC%.*}
+	# fi
+	BNESS=`brightnessctl g`
+
+	PERC="$(($BNESS*100/235))"
 		LIGHT=${PERC%.*}
-	fi
 
 	echo "$LIGHT"
 }

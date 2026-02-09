@@ -52,7 +52,8 @@
   },
   "custom/rofi": {
     "format": "<span >󰣇 </span>",
-    "on-click": "/home/ameen/.config/rofi/launchers/type-6/launcher.sh",
+    "on-click": "~/.config/eww/dashboard/launch_dashboard",
+    // "on-click": "/home/ameen/.config/rofi/launchers/type-6/launcher.sh",
     "on-click-right": "rofi -show drun",
     "tooltip-format": "App launcher"
   },
