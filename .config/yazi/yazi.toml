@@ -1,0 +1,34 @@
+[opener]
+image = [{ run = "gwenview \"$@\"", desc = "Gwenview" }]
+
+image-term = [{ run = "feh \"$@\"", desc = "Feh"}]
+
+video = [{ run = "vlc \"$@\"", desc = "VLC" }]
+
+audio = [{ run = "vlc \"$@\"", desc = "VLC" }]
+
+pdf = [{ run = "okular \"$@\"", desc = "Okular" }]
+
+text = [{ run = "nvim \"$@\"", desc = "Neovim", block = true }]
+
+browser = [{ run = "firefox \"$@\"", desc = "Firefox" }]
+
+zip = [{ run = "ark \"$@\"", desc = "Ark" }]
+
+[open]
+rules = [
+  # { mime = "image/*", use = "image" },
+  { mime = "image/*", use = "image-term" },
+  { mime = "video/*", use = "video" },
+  { mime = "audio/*", use = "audio" },
+  { mime = "application/pdf", use = "pdf" },
+  { mime = "text/*", use = "text" },
+  { mime = "application/zip", use = "zip" },
+]
+
+[manager]
+keymap = [
+  { on = [
+    "<C-Enter>",
+  ], run = "open --opener=browser", desc = "Open in Firefox" },
+]
