@@ -5,6 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export PATH="$HOME/.local/bin:$PATH"
+
 # directory for zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -79,6 +81,28 @@ alias i='yay -Si'
 alias I='yay -S'
 alias e='yazi'
 alias lsa='ls -la'
+alias n='nvim-web'
+
+alias nvim-old="NVIM_APPNAME=nvimO nvim"
+alias nvim-web="NVIM_APPNAME=nvimW nvim"
+alias nvimw="NVIM_APPNAME=nvimW nvim"
+
+function nvims() {
+  items=("default" "nvimO" "nvimW")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
+
+bindkey -s ^a "nvims\n"
+bindkey -s ^n "nvim-web\n"
+bindkey -s ^e "e\n"
+bindkey -s ^b "tmux\n"
 
 # shell integration
 eval "$(fzf --zsh)"

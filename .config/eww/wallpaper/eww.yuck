@@ -1,0 +1,27 @@
+(defpoll wall_list :interval "10s" "ls ~/Pictures/wallpapers/*.{png,jpg,gif}") ; Update path
+
+(defwindow wallpaper_selector
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "60%"
+                      :height "60%"
+                      :anchor "center")
+  :stacking "fg"
+  :windowtype "dialog"
+  (wall_content))
+
+(defwidget wall_content []
+  (box :orientation "v" :class "wall-box"
+    (label :text "Select Wallpaper" :class "wall-title")
+    (scroll :hscroll false
+      (box :class "wall-grid" :orientation "v" :spacing 10
+        ; Example for manual listing, better to use a script for JSON
+        (button :onclick "bash ~/.config/eww/scripts/wallpaper.sh 'wall1.png'"
+          (box :orientation "h" "Wall 1"))
+        (button :onclick "bash ~/.config/eww/scripts/wallpaper.sh 'wall2.png'"
+          (box :orientation "h" "Wall 2"))
+      )
+    )
+  )
+)
