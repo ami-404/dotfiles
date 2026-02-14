@@ -6,15 +6,18 @@ return {
         enabled = true,
         replace_netrw = true, -- disable netrw
 
-        layout = {
-          position = "left", -- left | right
-          width = 25,
-        },
-
         auto_close = false, -- close explorer after opening file
         follow_file = true, -- highlight current file
         hidden = true, -- show hidden files
       },
+      -- picker = {
+      --   layout = {
+      --     layout = {
+      --       position = "left", -- left | right
+      --       width = 30,
+      --     },
+      --   },
+      -- },
     },
 
     keys = {
@@ -34,7 +37,7 @@ return {
 
           if vim.api.nvim_get_current_win() ~= explorer_win and explorer_win then
             vim.api.nvim_set_current_win(explorer_win)
-          else -- TODO: idk do something
+          else
             Snacks.explorer()
           end
         end,

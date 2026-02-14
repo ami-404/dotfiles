@@ -103,7 +103,7 @@ function nvims() {
 }
 
 bindkey -s ^a "nvims\n"
-bindkey -s ^n "nvim-web\n"
+bindkey -s ^n "n\n"
 bindkey -s ^e "e\n"
 bindkey -s ^b "tmux\n"
 
