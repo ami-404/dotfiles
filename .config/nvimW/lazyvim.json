@@ -1,8 +1,11 @@
 {
   "extras": [
     "lazyvim.plugins.extras.ai.copilot-chat",
+    "lazyvim.plugins.extras.coding.luasnip",
     "lazyvim.plugins.extras.editor.mini-files",
+    "lazyvim.plugins.extras.lang.clangd",
     "lazyvim.plugins.extras.lang.markdown",
+    "lazyvim.plugins.extras.lang.python",
     "lazyvim.plugins.extras.lang.toml",
     "lazyvim.plugins.extras.ui.mini-animate",
     "lazyvim.plugins.extras.ui.smear-cursor"

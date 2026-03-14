@@ -85,6 +85,7 @@ alias I='yay -S'
 alias e='yazi'
 alias lsa='ls -la'
 alias n='nvim-web'
+alias v='nvim'
 
 alias nvim-old="NVIM_APPNAME=nvimO nvim"
 alias nvim-web="NVIM_APPNAME=nvimW nvim"
@@ -106,6 +107,7 @@ bindkey -s ^a "nvims\n"
 bindkey -s ^n "n\n"
 bindkey -s ^e "e\n"
 bindkey -s ^b "tmux\n"
+bindkey -s ^v "nvim\n"
 
 # shell integration
 eval "$(fzf --zsh)"

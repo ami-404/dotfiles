@@ -2,14 +2,14 @@ return {
   {
     "folke/snacks.nvim",
     opts = {
-      explorer = {
-        enabled = true,
-        replace_netrw = true, -- disable netrw
-
-        auto_close = false, -- close explorer after opening file
-        follow_file = true, -- highlight current file
-        hidden = true, -- show hidden files
-      },
+      -- explorer = {
+      --   enabled = true,
+      --   replace_netrw = true, -- disable netrw
+      --
+      --   auto_close = false, -- close explorer after opening file
+      --   follow_file = true, -- highlight current file
+      --   hidden = true, -- show hidden files
+      -- },
 
       dashboard = {
         width = 60,
@@ -31,6 +31,7 @@ return {
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
             { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = " ", key = "e", desc = "File Explorer", action = ":lua Snacks.explorer()" },
             {
               icon = " ",
               key = "c",
@@ -85,11 +86,25 @@ welcome
           { section = "keys", gap = 1, padding = 1 },
           { section = "startup" },
         },
-      }, -- picker = {
-      --   layout = {
+      },
+
+      -- picker = {
+      --   sources = {
+      --     explorer = {
+      --       layout = {
+      --         position = "Right",
+      --       },
+      --     },
+      --   },
+      -- },
+
+      -- picker = {
+      --   explorer = {
       --     layout = {
-      --       position = "left", -- left | right
-      --       width = 30,
+      --       layout = {
+      --         position = "right", -- left | right
+      --         width = 30,
+      --       },
       --     },
       --   },
       -- },
