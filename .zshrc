@@ -51,6 +51,9 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey -M viins 'jj' vi-cmd-mode
 
+# bindkey -s '^[[1;5D' '\eb'
+# bindkey -s '^[[1;5C' '\ef'
+
 export KEYTIMEOUT=20
 
 # history
