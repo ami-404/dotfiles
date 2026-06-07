@@ -1,0 +1,24 @@
+(defvar wall_list_yuck "")
+
+(defwindow wallpaper_selector
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "25%"
+                      :height "100%"
+                      :anchor "left center")
+  :stacking "fg"
+  :focusable true
+  :windowtype "dialog"
+  :wm-ignore false
+  (wallpaper_ui))
+
+(defwidget wallpaper_ui []
+  (eventbox :onscroll "if [ '{}' = 'up' ]; then ~/.config/eww/scripts/wall-selector.sh prev; else ~/.config/eww/scripts/wall-selector.sh next; fi"
+            :onkeychanged "if [ '{}' = 'Down' ] || [ '{}' = 'j' ]; then ~/.config/eww/scripts/wall-selector.sh next; elif [ '{}' = 'Up' ] || [ '{}' = 'k' ]; then ~/.config/eww/scripts/wall-selector.sh prev; elif [ '{}' = 'Return' ]; then ~/.config/eww/scripts/wall-selector.sh select_current; fi"
+    (box :class "wallpaper-box" :orientation "v" :space-evenly false
+      (box :class "header" :space-evenly false :spacing 10
+        (label :text "󰸉  Select Wallpaper" :class "title"))
+      
+      (box :class "list-container" :orientation "v" :space-evenly true :vexpand true
+        (literal :content wall_list_yuck)))))

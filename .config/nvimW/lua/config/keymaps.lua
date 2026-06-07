@@ -7,7 +7,11 @@ local opts = { noremap = true, silent = true }
 
 -- keymap.set("n", "x", '"_x')
 
-vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = false })
+vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = false })
+vim.api.nvim_set_keymap("i", "JK", "<Esc>", { noremap = false })
+
+keymap.set("i", "<C-l>","<Right>" )
+keymap.set("i", "<C-h>","<Left>" )
 
 --incriment/decri
 keymap.set("n", "+", "<C-a>")
@@ -17,7 +21,8 @@ keymap.set("n", "-", "<C-a>")
 keymap.set("n", "<C-a>", "gg<S-v>G")
 
 -- save file and quit
-keymap.set("n", "<leader>w", ":update<Return>", opts)
+-- keymap.set("n", "<leader>w", ":update<Return>", opts)
+keymap.set("n", "<leader>r", ":update<Return>", opts)
 keymap.set("n", "<leader>q", ":quit<Return>", opts)
 keymap.set("n", "<leader>Q", ":qa<Return>", opts)
 

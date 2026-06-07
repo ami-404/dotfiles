@@ -1,0 +1,25 @@
+.viewer-box {
+  background-color: #1e1e2e;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.img-panel {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain; 
+  background-color: #11111b;
+  border-radius: 8px;
+}
+
+.control-box button {
+  color: #cdd6f4;
+  background-color: #313244;
+  margin: 10px 5px 0px 5px;
+  padding: 8px;
+  border-radius: 6px;
+  
+  &:hover {
+    background-color: #45475a;
+  }
+}

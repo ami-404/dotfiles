@@ -1,0 +1,43 @@
+/* Main container background */
+.wallpaper-box {
+  background-color: #1e1e2e;
+  border-right: 3px solid #cdd6f4;
+  padding: 15px;
+  height: 100%;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #cdd6f4;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.list-container {
+  margin-top: 10px;
+}
+
+.wall-list {
+  /* Let GTK box layout manage spacing uniformly */
+}
+
+/* Individual wallpaper buttons */
+.wall-btn {
+  background: none;
+  border: 4px solid transparent;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  padding: 0px;
+  overflow: hidden;
+  transition: all 0.15s ease-in-out;
+
+  image {
+    border-radius: 8px;
+  }
+
+  &:hover {
+    border-color: #89b4fa;
+    transform: scale(1.01);
+  }
+}

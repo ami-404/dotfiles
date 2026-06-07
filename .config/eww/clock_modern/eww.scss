@@ -1,0 +1,55 @@
+/* Reset background so it's transparent */
+window {
+  background-color: transparent;
+}
+
+.clock-box {
+  color: white;
+  // color: #9292b6;
+  // color: #8a00c2;
+  // font-size: 128px;
+  // font-weight: bold;
+  font-family:  " Anurati", "Adwaita Mono"; //, "Iosevka Nerd Font";
+  // font-family: " BigBlueTermPlus Nerd Font", " Pixelify Sans", "Iosevka Nerd Font"; /* Change to your preferred font */
+  // text-shadow: 6px 6px 0px #333333;
+  // text-shadow: 6px 6px 0px #9292b6;
+  // text-shadow: 6px 6px 0px #4e1380;
+  // text-shadow: 3px 3px 6px black;
+
+  // filter: contrast(200%) brightness(150%);
+  // image-rendering: pixelated;
+  /* Shadow helps visibility against light wallpapers */
+  // text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.day {
+  font-size: 75px;
+  letter-spacing: 20px;
+  text-shadow: 3px 3px 6px black;
+}
+
+.month {
+  font-size: 30px;
+  // letter-spacing: 5px;
+  // text-shadow: 2px 2px 4px black;
+  text-shadow: 1.2px 1.2px 2.4px black;
+}
+
+.time {
+  font-size: 20px;
+  margin-top: 5px;
+  // text-shadow: 2px 2px 2px black;
+  text-shadow: 0.8px 0.8px 1.6px black;
+}
+
+.time-main {
+  font-size: 128px;
+}
+
+.time-marker {
+  font-size: 40px;      /* Smaller size for AM/PM */
+  margin-left: 10px;    /* Space between time and AM/PM */
+  margin-top: 50px;
+  // margin-bottom: 20px;  /* Optional: nudge it up or down */
+  // valign: "end";        /* Aligns AM/PM to the bottom of the box */
+}

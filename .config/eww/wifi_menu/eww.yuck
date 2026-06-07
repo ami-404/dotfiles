@@ -1,0 +1,10 @@
+(defwindow wifi_menu
+  :monitor 0              ;; Required for Wayland
+  :stacking "overlay"     ;; Use "overlay" for Wayland menus/popups
+  :exclusive false        ;; Set to true if this is a permanent bar
+  :focusable true         ;; Set true if you need to type in it
+  :geometry (geometry
+              :width "100%"
+              :height "100%"
+              :anchor "center")
+  (label :text "Hello, World!"))

@@ -11,6 +11,34 @@ return {
       --   hidden = true, -- show hidden files
       -- },
 
+      image = {
+
+        formats = {
+            "png",
+            "jpg",
+            "jpeg",
+            "gif",
+            "bmp",
+            "webp",
+            "avif",
+            "mp4",
+            "mov",
+            "mkv",
+            "webm",
+            "pdf",
+            "icns",
+            "svg",
+          },
+
+        doc = {
+          enabled = true,
+          inline = false,
+          float = true,
+          max_width = 80,
+          max_height = 40,
+        }
+      },
+
       dashboard = {
         width = 60,
         row = nil, -- dashboard position. nil for center

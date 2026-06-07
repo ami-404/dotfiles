@@ -15,6 +15,12 @@ vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
 vim.keymap.set('n', '<C-l>', '<C-w>l')
 
+-- select all
+vim.keymap.set("n", "<C-a>", "gg<S-v>G")
+
+vim.opt.scrolloff = 8
+vim.opt.cursorline = true
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -25,6 +31,17 @@ vim.opt.smarttab = true
 vim.opt.smartindent = true
 vim.opt.expandtab = true
 
+-- Move line(s) up/down in normal/visual mode
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down' })
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up' })
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
+
+vim.keymap.set('i', '(', '()<Left>')
+vim.keymap.set('i', '[', '[]<Left>')
+vim.keymap.set('i', '{', '{}<Left>')
+vim.keymap.set('i', '"', '""<Left>')
+vim.keymap.set('i', "'", "''<Left>")
 
 require("nvim-tree").setup()
 

@@ -1,0 +1,50 @@
+;; 1. variables to poll state from our script
+(defpoll image_list :interval "10s" "./scripts/controller.sh data")
+(defvar img_index 3)
+(defpoll image_1 :interval "10s" "./scripts/image.sh")
+(defpoll image_2 :interval "10s" "./scripts/image.sh")
+
+;; 2. the widget layout
+(defwidget image_viewer []
+  (box :orientation "v" :space-evenly false :class "viewer-box"
+    
+    ;; two image containers side-by-side
+    (box :orientation "h" :space-evenly true :spacing 10 :height 300 :width 600
+
+      (eventbox :onclick "/home/ameen/scripts/change-wal.sh '${image_2}' && eww --config ~/.config/eww/wal-picker close gallery" :cursor "pointer"
+      (box :style "background-image: url('${image_1}')" 
+            :class "img-panel"
+            :width 295
+            :height 300))
+      (eventbox :onclick "/home/ameen/scripts/change-wal.sh '${image_2}' && eww --config ~/.config/eww/wal-picker close gallery" :cursor "pointer"
+      (box :style "background-image: url('${image_2}')" 
+            :class "img-panel"
+            :width 295
+            :height 300)) 
+
+      ;; (box :style "background-image: url('${jq(image_list, ".[${img_index}]")}')"
+      ;;     :class "img-panel")
+    )
+    
+    ;; navigation controls
+    (box :orientation "h" :space-evenly true :class "control-box"
+      (button :onclick "./scripts/controller.sh prev" "◀ prev")
+      (button :onclick "./scripts/controller.sh scan" "🔄 rescan")
+      (button :onclick "./scripts/controller.sh next" "next ▶")
+    )
+  )
+)
+
+;; 3. windows configuration
+(defwindow gallery
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "620px"
+                      :height "360px"
+                      :anchor "center")
+  :stacking "fg"
+  :windowtype "normal"
+;;  :focusable true
+  :wm-ignore false
+  (image_viewer))

@@ -1,0 +1,37 @@
+;; Time variable - updates every second
+;; (defpoll time :interval "1s" "date '+%I:%M %p'")
+(defpoll hour_min :interval "1s" "date '+%I:%M'")
+(defpoll marker   :interval "1s" "date '+%p'")
+
+;; The visual layout of the clock
+(defwidget clock_widget []
+  (box :class "clock-box"
+       :orientation "h"
+       :space-evenly "false"
+       :halign "center"
+    (label :text hour_min
+           :show-truncated false 
+           :class "time-main"
+           :xalign 0.5)
+    (label :text marker   
+           :show-truncated false 
+           :class "time-marker"
+           :xalign 0.5)))
+
+    ;; (label :text time
+    ;;        :show-truncated false  ;; This disables the "..." dots
+    ;;        :xalign 0.5)))        ;; Ensures text stays centered
+
+
+;; The window configuration
+(defwindow wallpaper_clock
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "15%"
+                      :width "300px"
+                      :height "100px"
+                      :anchor "top center")
+  :stacking "bottom"  ;; Keeps it behind windows
+  :exclusive false    ;; Desktop windows shouldn't push other apps
+  :focusable false
+  (clock_widget))

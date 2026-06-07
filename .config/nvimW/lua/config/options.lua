@@ -12,6 +12,13 @@ vim.opt.fileencoding = "utf-8"
 
 vim.opt.number = true
 
+-- LazyVim auto format
+vim.g.autoformat = false
+
+-- if the completion engine supports the AI source,
+-- use that instead of inline suggestions
+vim.g.ai_cmp = false
+
 vim.opt.title = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true

@@ -45,16 +45,24 @@ zinit cdreplay -q
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-bindkey -v
-# bindkey -e
+# bindkey -v
+bindkey -e
+
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey -M viins 'jj' vi-cmd-mode
 
-# bindkey -s '^[[1;5D' '\eb'
-# bindkey -s '^[[1;5C' '\ef'
+bindkey -s '^[[1;5D' '\eb'
+bindkey -s '^[[1;5C' '\ef'
+
+bindkey '^H' backward-kill-word
+bindkey "^[[3~" delete-char
 
 export KEYTIMEOUT=20
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
 
 # history
 HISTSIZE=5000
@@ -81,7 +89,7 @@ alias ls='ls --color'
 alias c='clear'
 alias q='exit'
 alias t='tmux'
-alias cmatrix='cmatrix -s -C blue'
+alias matrix='cmatrix -s -C blue'
 alias s='yay -Ss'
 alias i='yay -Si'
 alias I='yay -S'

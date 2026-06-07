@@ -1,0 +1,10 @@
+#!/bin/bash
+
+CONFIG="$HOME/.config/eww/wifi_menu"
+WINDOW="wifi_menu"
+
+if [[ $(eww active-windows --config "$CONFIG") =~ "$WINDOW" ]]; then
+    eww close --config "$CONFIG" "$WINDOW"
+else
+    eww open --config "$CONFIG" "$WINDOW"
+fi
