@@ -1,0 +1,153 @@
+/* Import the wallust colors */
+@import url("colors.css");
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: bold;
+}
+
+.widgets > .widget{
+  /* background: var(color9); */
+  border-radius: var(--border-radius);
+  padding: calc(var(--border-radius) / 2);
+  border: var(--border);
+}
+
+/* Control Center Container */
+.control-center {
+    background: alpha(@color0, 0.7); /* Translucent dark background */
+    border-radius: 12px;
+    border: 2px solid @color4; /* Using a teal accent for border */
+    margin: 10px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+}
+
+/* Notification Container */
+.notification-row {
+    outline: none;
+    margin: 4px;
+    padding: 0;
+}
+
+.notification {
+    background: alpha(@color8, 0.4); /* Glassy notification tiles */
+    border-radius: 8px;
+    margin: 6px 12px;
+    padding: 2px;
+    border: 1px solid alpha(@color7, 0.3);
+}
+
+.notification-content {
+    background: transparent;
+    padding: 10px;
+    min-height: 80px;     
+    padding: 15px 12px;
+}
+
+/* Titles and Labels */
+.notification-default-action,
+.notification-action {
+    padding: 4px;
+    margin: 4px;
+    background: alpha(@color2, 0.6);
+    border-radius: 6px;
+    color: @foreground;
+}
+
+.notification-default-action:hover {
+    background: @color3;
+}
+
+.summary {
+    color: @color13; /* Bright blue for the sender/app name */
+    font-size: 16px;
+}
+
+.body {
+    color: @foreground;
+}
+
+/* Widgets Styling */
+.widget-title {
+    color: @color14;
+    margin: 8px;
+    font-size: 1.2rem;
+}
+
+.widget-title > button {
+    background: alpha(@color1, 0.8);
+    color: @foreground;
+    border-radius: 8px;
+    padding: 4px 12px;
+}
+
+.widget-dnd {
+    background: alpha(@color0, 0.5);
+    margin: 8px;
+    padding: 8px;
+    border-radius: 10px;
+    color: @color5;
+}
+
+.widget-dnd > switch {
+    background: @color2;
+    border-radius: 12px;
+}
+
+.widget-dnd > switch:checked {
+    background: @color4;
+}
+
+/* Buttons Grid (Your Action Icons) */
+.widget-buttons-grid {
+    padding: 8px;
+    margin: 8px;
+    border-radius: 12px;
+    background: alpha(@color8, 0.2);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+    background: alpha(@color0, 0.6);
+    border-radius: 8px;
+    color: @color6;
+    margin: 4px;
+    padding: 12px;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+    background: @color4;
+    color: @color0;
+}
+
+/* MPRIS Media Player */
+.widget-mpris {
+    background: alpha(@color2, 0.4);
+    padding: 8px;
+    margin: 8px;
+    border-radius: 12px;
+}
+
+.widget-mpris-player {
+    padding: 8px;
+    margin: 4px;
+}
+
+/* Volume and Backlight Sliders */
+.widget-volume, .widget-backlight {
+    background: alpha(@color0, 0.5);
+    padding: 8px;
+    margin: 4px 8px;
+    border-radius: 10px;
+    color: @color13;
+}
+
+scale trough {
+    background: alpha(@color7, 0.1);
+    border-radius: 12px;
+    min-height: 8px;
+}
+
+scale highlight {
+    background: @color5;
+    border-radius: 12px;
+}

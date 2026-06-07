@@ -1,57 +1,260 @@
+@import url("colors.css");
+
+list,
+listview,
+row,
+listview row,
+listview row:selected,
+listview row:hover,
+listview row:focus,
+listview row:active {
+background-color: transparent;
+background-image: none;
+box-shadow: none;
+outline: none;
+}
+
+/* Local Variables for easier tweaking */
+@define-color noti-border-color @color5;
+@define-color noti-bg alpha(@color0, 0.8);
+@define-color noti-bg-hover alpha(@color8, 0.4);
+@define-color text-color @foreground;
+@define-color text-color-alt @color7;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font";
+    font-weight: 800;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Animations --- */
+@keyframes rainbow {
+    0% { border-image-source: linear-gradient(to right, @color1, @color5, @color6); }
+    50% { border-image-source: linear-gradient(to right, @color6, @color1, @color5); }
+    100% { border-image-source: linear-gradient(to right, @color5, @color6, @color1); }
+}
+
 :root {
   --border-radius: 22px;
-  --cc-bg: transparent;
-
-  --widget-background: rgba(46, 46, 46, 0.7);
-  --noti-bg-alpha: 0.6;
-
-  --padding: calc(var(--border-radius) / 2);
 }
 
+.widgets > .widget:not(.notification-content){
+  /* background: var(color9); */
+  /* border-radius: var(--border-radius); */
+  /* padding: calc(var(--border-radius) / 2); */
+  border: var(--border);
+}
+
+
+/* --- Main Control Center --- */
 .control-center {
-  border-radius: 0;
+    background: @noti-bg;
+    border: 2px solid @noti-border-color;
+    border-radius: 12px;
+    margin: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    /* overflow: hidden; */
 }
 
-.widgets > .widget,
-.widget-mpris > carouselindicatordots,
-.widget-mpris > box > button {
-  background: var(--widget-background);
-  border-radius: var(--border-radius);
-  padding: calc(var(--border-radius) / 2);
-  border: var(--border);
+.notificationwindow, .blank-window {
+    background: transparent;
 }
 
-.control-center-list-placeholder {
-  padding: var(--border-radius);
+.control-center-list {
+    background: transparent;
 }
 
-.notification-group {
-  border-radius: var(--border-radius);
-  padding: 8px;
+/* --- Notifications --- */
+.notification-row {
+    outline: none;
+    margin: 4px 8px;
 }
 
-.widget.widget-mpris {
-  background: transparent;
-  border-radius: 0;
+.widget-notifications {
+  /* background: red; */
+  min-height: 100px;
+}
+
+/* .viewport .row { */
+/*   background: red; */
+/* } */
+
+.notification-content {
+    color: @text-color;
+    /* Glassy gradient using your wallust colors */
+    /* background: linear-gradient(to bottom, alpha(@color0, 0.9), alpha(@color8, 0.7)); */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* border-radius: -10px; */
+    /* border: 2px solid; */
+    /* border-image-slice: 1; */
+    border-image-source: linear-gradient(to right, @color1, @color5);
+    animation: rainbow 3s infinite;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.summary {
+    font-size: 1.1rem;
+    color: @text-color-alt;
+}
+
+.body {
+    font-size: 0.9rem;
+    color: @text-color;
+}
+
+/* --- Widgets Styling --- */
+
+/* Title Widget */
+.widget-title {
+    color: @noti-border-color;
+    background: alpha(@color8, 0.2);
+    padding: 10px;
+    margin: 8px;
+    border-radius: 10px;
+    border: 1px solid alpha(@noti-border-color, 0.5);
+}
+
+.widget-title > button {
+    background: alpha(@color0, 0.5);
+    color: @text-color;
+    border-radius: 8px;
+    border: 1px solid @noti-border-color;
+    padding: 4px 10px;
+}
+
+.widget-title > button:hover {
+    background: @color5;
+    color: @color0;
+}
+
+/* Do Not Disturb Widget */
+.widget-dnd {
+    background: alpha(@color8, 0.2);
+    padding: 10px;
+    margin: 8px;
+    border-radius: 10px;
+    color: @noti-border-color;
+}
+
+.widget-dnd > switch {
+    border-radius: 20px;
+    background: alpha(@color5, 0.3);
+    border: 1px solid @color5;
+}
+
+.widget-dnd > switch:checked {
+    background: @color4;
+}
+
+/* Media Player (MPRIS) */
+.widget-mpris {
+    background: alpha(@color0, 0.6);
+    padding: 10px;
+    margin: 8px;
+    border-radius: 10px;
+    border-bottom: 3px solid @color5;
+}
+
+.widget-mpris-title {
+    font-size: 1rem;
+    color: @color13;
+}
+
+.widget-mpris-subtitle {
+    font-size: 0.8rem;
+    color: @text-color-alt;
+}
+
+/* Buttons Grid (Action Icons) */
+.widget-buttons-grid {
+    background: alpha(@color8, 0.1);
+    margin: 8px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid alpha(@noti-border-color, 0.3);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+    background: alpha(@color0, 0.6);
+    border-radius: 10px;
+    color: @color5;
+    margin: 5px;
+    padding: 12px;
+    border: 1px solid transparent;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+    background: alpha(@color5, 0.2);
+    border: 1px solid @color5;
+    color: @foreground;
+}
+
+/* Volume & Backlight Sliders */
+.widget-volume, .widget-backlight {
+    background: alpha(@color0, 0.4);
+    padding: 8px;
+    margin: 4px 10px;
+    border-radius: 10px;
+    color: @color13;
+}
+
+/* GTK Slider Styling */
+scale trough {
+    background: alpha(@color7, 0.2);
+    border-radius: 10px;
+    min-height: 10px;
+}
+
+scale highlight {
+    background: linear-gradient(to right, @color5, @color13);
+    border-radius: 10px;
+}
+
+.widget-buttons-grid.actions > flowbox > flowboxchild{
+  margin: 0;
   padding: 0;
+}
+
+.widget-buttons-grid.actions > flowbox > flowboxchild > button {
+    margin: 0; /* Adjust spacing between buttons manually if space-evenly isn't enough */
+  padding: 0;
+    /* min-width: 80px; /* Optional: give buttons a consistent base size */ 
+}
+
+.widget-buttons-grid.actions > flowbox > flowboxchild:nth-child(1) > button:checked {
+  background: deepskyblue;
+  color: black;
+}
+/**/
+ .widget-buttons-grid.actions > flowbox > flowboxchild:nth-child(n+2):nth-child(-n+6) > button { 
+  background: transparent;
+ }
+
+ .widget-buttons-grid.actions > flowbox > flowboxchild:nth-child(n+2):nth-child(-n+6) > button:hover { 
+  background: transparent;
   border: none;
-}
-.widget.widget-mpris > carouselindicatordots {
-  --dots-padding: 4px;
-  padding: var(--dots-padding);
-  padding-left: var(--dots-padding);
-  padding-right: calc(6px + var(--dots-padding));
-  margin: 0;
-  margin-top: var(--padding);
-}
-.widget-mpris > box > button:hover {
-  background: rgba(46, 46, 46, 1);
-}
-.widget-mpris-player {
-  box-shadow: none;
-  border: var(--border);
-  margin: 0 var(--padding);
-}
-.widget-mpris-player:only-child {
-  margin: 0;
-}
+ }
+
+/* .widget-buttons-grid { */
+/*     background: alpha(@color8, 0.1); */
+/*     margin: 8px; */
+/*     padding: 5px; */
+/*     border-radius: 10px; */
+/*     border: 1px solid alpha(@noti-border-color, 0.3); */
+/* } */
+/**/
+/* .widget-buttons-grid > flowbox > flowboxchild > button { */
+/*     background: alpha(@color0, 0.6); */
+/*     border-radius: 10px; */
+/*     color: @color5; */
+/*     margin: 5px; */
+/*     padding: 12px; */
+/*     border: 1px solid transparent; */
+/* } */
+/**/
+/* .widget-buttons-grid > flowbox > flowboxchild > button:hover { */
+/*     background: alpha(@color5, 0.2); */
+/*     border: 1px solid @color5; */
+/*     color: @foreground; */
+/* } */
