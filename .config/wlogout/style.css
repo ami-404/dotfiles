@@ -1,70 +1,61 @@
-* {
-	background-image: none;
-	box-shadow: none;
-}
-
 window {
-	background-color: rgba(12, 12, 12, 0.9);
+  font-family: Fira Code Medium;
+  font-size: 16pt;
+  color: #cdd6f4; /* text */
+  background-color: rgba(30, 30, 46, 0.6);
 }
 
 button {
-    border-radius: 30px;
-    border-color: black;
-	text-decoration-color: #FFFFFF;
-    color: #FFFFFF;
-	background-color: #1E1E1E;
-	border-style: solid;
-	border-width: 1px;
-    margin: 10px;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 20%;
-    background-color: #5d3dba;
-}
-button label {
-    margin-top: 120px;
-    font-family: roboto;
-    font-size: 15pt;
-}
-
-button:focus, button:active, button:hover {
-	/* background-color: #3a2775; */
-	outline-style: none;
-    border: solid 1px blue;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20%;
+  background-color: rgba(200, 220, 255, 0);
+  animation: gradient_f 20s ease-in infinite;
+  border-radius: 50px; /* Increased border radius for a more rounded look */
 }
 
 button:focus {
-  background-color: #3a2775;
-}
-
-button:active {
-  background-color: #291959;
+  background-size: 25%;
+  border: 0px;
+  background-color: #fff7e8; /* Changed to dark gray */
 }
 
 button:hover {
-  background-color: #5942a1;
+  background-color: #fff7e8; /* Changed to dark gray */
+  color: #1e1e2e;
+  background-size: 40%;
+  border-radius: 60px;
+  transition:
+    all 0.3s cubic-bezier(0.55, 0, 0.28, 1.682),
+    box-shadow 0.2s ease-in-out,
+    background-color 0.3s ease-in-out;
+}
+
+/* Adjust the size of the icon or content inside the button */
+button span {
+  font-size: 1.2em; /* Increase the font size */
 }
 
 #lock {
-    background-image: image(url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+  background-image: image(url("./lock.png"));
 }
 
 #logout {
-    background-image: image(url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+  background-image: image(url("./logout.png"));
 }
 
 #suspend {
-    background-image: image(url("/usr/share/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
-}
-
-#hibernate {
-    background-image: image(url("/usr/share/wlogout/icons/hibernate.png"), url("/usr/local/share/wlogout/icons/hibernate.png"));
+  background-image: image(url("./sleep.png"));
 }
 
 #shutdown {
-    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+  background-image: image(url("./power.png"));
 }
 
 #reboot {
-    background-image: image(url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+  background-image: image(url("./restart.png"));
+}
+
+#hibernate {
+  background-image: image(url("./hibernate_white.png"));
 }

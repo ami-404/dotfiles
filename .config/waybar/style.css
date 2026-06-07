@@ -39,11 +39,12 @@ window#waybar {
 }
 
 #workspaces button {
-  all: initial;
+  /* all: initial; */
   padding: 0 6px;
   margin: 0 1.5px;
   min-width: 9px;
   font-weight: 700;
+  /* pointer-events: auto;      */
 }
 
 #workspaces button.empty {
@@ -107,6 +108,12 @@ tooltip {
 #idle_inhibitor {
   min-width: 20px;
 }
+
+/* #custom-cava { */
+/*     color: #8FBC8F; */
+/*     font-family: "YourFontName"; */
+/*     font-size: 22px; */
+/* } */
 
 .hidden {
   opacity: 0;
