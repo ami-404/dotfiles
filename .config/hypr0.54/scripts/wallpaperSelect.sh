@@ -33,7 +33,7 @@ rofiCommand="rofi -show -dmenu -theme ${themesDir}/wallpaper-select.rasi"
 executeCommand() {
 
     if command -v swww &>/dev/null; then
-        swww img "$1" ${SWWW_PARAMS}
+        awww img "$1" ${SWWW_PARAMS}
         wal -i "$1"
 
     elif command -v swaybg &>/dev/null; then
@@ -66,7 +66,7 @@ menu() {
 
 # If swww exists, start it
 if command -v swww &>/dev/null; then
-    swww query || swww init
+    awww query || swww init
 fi
 
 # Execution
