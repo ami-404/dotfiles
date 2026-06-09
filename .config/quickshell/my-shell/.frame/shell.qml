@@ -9,7 +9,7 @@ ShellRoot {
     id: root
 
     // Change these values to adjust your border style
-    property int frameThickness: 10   // How wide the border is
+    property int frameThickness: 3   // How wide the border is
     property int frameRounding: 25    // Corner curvature
     property color frameColor: "#89b4fa" // Frame color (e.g., Pastel Blue)
 
@@ -44,6 +44,7 @@ ShellRoot {
         Rectangle {
             anchors.fill: parent
             color: root.frameColor
+            radius: -20
         }
     }
 

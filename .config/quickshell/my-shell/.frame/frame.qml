@@ -6,7 +6,7 @@ ShellRoot {
     id: root
 
     // --- CONFIGURATION ---
-    property int frameThickness: 10      // The thickness of the border frame
+    property int frameThickness: 3      // The thickness of the border frame
     property int cornerRadius: 24        // The roundness of your screen corners
     property color frameColor: "#89b4fa"   // Pastel Blue (Catppuccin Mocha)
 
