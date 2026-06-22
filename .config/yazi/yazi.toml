@@ -1,11 +1,12 @@
 [opener]
 image = [{ run = "gwenview \"$@\"", desc = "Gwenview" }]
 
-image-term = [{ run = "feh \"$@\"", desc = "Feh"}]
+image-term = [{ run = "feh --auto-zoom --scale-down \"$@\"", desc = "Feh"}]
 
-video = [{ run = "vlc \"$@\"", desc = "VLC" }]
+video = [{ run = "mpv \"$@\"", desc = "Mpv" }]
 
-audio = [{ run = "vlc \"$@\"", desc = "VLC" }]
+# audio = [{ run = "open --use=play_audio", desc = "Play audio in background with mpv" }]
+# audio = [{ run = "vlc \"$@\"", desc = "VLC" }]
 
 pdf = [{ run = "okular \"$@\"", desc = "Okular" }]
 
@@ -15,20 +16,27 @@ browser = [{ run = "firefox \"$@\"", desc = "Firefox" }]
 
 zip = [{ run = "ark \"$@\"", desc = "Ark" }]
 
+play_audio = [{ run = 'mpv --audio-display=no --video=no "$@"', orphan = true, for = "unix" }]
+
 [open]
 rules = [
   # { mime = "image/*", use = "image" },
   { mime = "image/*", use = "image-term" },
   { mime = "video/*", use = "video" },
-  { mime = "audio/*", use = "audio" },
+  { mime = "audio/*", use = "play_audio" },
+  # { mime = "audio/*", use = "audio" },
   { mime = "application/pdf", use = "pdf" },
   { mime = "text/*", use = "text" },
   { mime = "application/zip", use = "zip" },
 ]
 
-[manager]
-keymap = [
-  { on = [
-    "<C-Enter>",
-  ], run = "open --opener=browser", desc = "Open in Firefox" },
-]
+# [manager]
+# prepend_keymap = [
+#   { on = [ "<C-Enter>", ], run = "open --opener=browser", desc = "Open in Firefox" },
+#   { on = [ "p" ], run = "open --use=play_audio", desc = "Play audio in background with mpv"},
+# ]
+
+# [[manager.prepend_keymap]]
+# on   = [ "p" ]
+# run  = "open --use=play_audio"
+# desc = "Play audio in background with mpv"

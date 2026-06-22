@@ -1,0 +1,6 @@
+[mgr]
+prepend_keymap = [
+  { on = [ "<C-Enter>", ], run = "open --opener=browser", desc = "Open in Firefox" },
+  # { on = [ "p" ], run = "open --use=play_audio", desc = "Play audio in background with mpv"},
+  { on = [ "P" ],         run = "shell 'killall mpv' --confirm", desc = "Stop background mpv audio" },
+]
