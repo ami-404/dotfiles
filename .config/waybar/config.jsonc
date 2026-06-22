@@ -63,6 +63,10 @@
         "update-active-window": true,
         "format": " {icon}{title:.0}",
         "icon-size": 12,
+        // "icon-theme": [ "hicolor" ],
+        // "app_ids-mapping": {
+        //   "helium-browser": "helium"
+        // },
         "on-click-window": "~/scripts/focus-window.sh {address} {button}"
     }  
 	//    "window-rewrite-default": "",
@@ -155,7 +159,8 @@
   "custom/notifi": {
     "format": "{icon}",
     "format-icons": " ",
-    "on-click": "swaync-client -t"
+    "on-click": "qs -c my-shell ipc call notifications toggle"
+    // "on-click": "swaync-client -t"
   },
   "network": {
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],

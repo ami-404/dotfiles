@@ -1,3 +1,7 @@
 
 timer-exec 'notify-send -a peaclock "Timer Complete" "Your time is up!" && mpv /usr/share/sounds/freedesktop/stereo/complete.oga'
 
+set seconds on
+
+style active-fg #3fbfa0
+style colon-fg cyan

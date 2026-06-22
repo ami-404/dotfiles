@@ -8,6 +8,7 @@
 -- menu = menu
 
 local mainMod = "SUPER"
+local ipc = "qs -c noctalia-shell ipc call"
 local mod = "CTRL + SUPER"
 local ctsh = "CTRL + SHIFT"
 
@@ -24,14 +25,17 @@ hl.bind(mainMod .. " + CTRL + B", hl.dsp.exec_cmd(firefox))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("pkill -x waybar || waybar"))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("rofi -show emoji"))
 hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("gnome-calculator"))
+-- hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd(ipc .. " settings toggle"))
 
 -- launcher
+-- hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(ipc .. " launcher toggle"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + CTRL + SPACE", hl.dsp.exec_cmd("dotfiles/.config/rofi/launchers/type-6/launcher.sh"))
 
 -- Wallpapers
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("~/scripts/change-wal.sh"))
-hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.exec_cmd("~/Pictures/wallpapers/wal-picker.sh"))
+hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.exec_cmd("qs -c my-shell ipc call wallpaper toggle"))
+-- hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.exec_cmd("~/Pictures/wallpapers/wal-picker.sh"))
 
 -- logout
 hl.bind(

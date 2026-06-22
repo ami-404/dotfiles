@@ -54,6 +54,7 @@ hl.window_rule({match = {class = ".*"}, persistent_size = 1})
 hl.window_rule({match = {class = ".*nm-connection-editor.*"}, float = 1})
 hl.window_rule({match = {class = "org.gnome.Calculator"}, float = 1})
 hl.window_rule({match = {class = "org.gnome.Cheese"}, float = 1, size = {505, 625}})
+hl.window_rule({match = {class = "org.gnome.Snapshot"}, float = 1, size = {505, 625}})
 
 hl.window_rule({match = {class = ".*thunar.*", title = ".*Rename.*"}, float = 1})
 hl.window_rule({match = {class = ".*thunar.*", title = ".*File Operation Progress.*"}, float = 1})
@@ -63,6 +64,7 @@ hl.window_rule({match = {class = "firefox", title = "Picture-in-Picture"}, float
 hl.window_rule({match = {title = ".*Open File.*"}, float = 1})
 hl.window_rule({match = {class = "xdg-desktop-portal-gtk"}, float = 1})
 
+hl.window_rule({match = {class = "feh"}, float = 1, size = {740, 416}, move = {313,187}})
 
 hl.window_rule({match = {initial_class = "org.godotengine.ProjectManager", initial_title = "Godot"}, float = 1, size = {864, 600}})
 hl.window_rule({match = {initial_title = "Godot"}, float = 1})
@@ -76,6 +78,15 @@ hl.window_rule({match = {class = "orbitor.exe", title = ".*Orbiter Server Launch
 hl.window_rule({match = {class = "org.kde.okular"}, float = 1})
 hl.window_rule({match = {class = "org.freedesktop.impl.portal.desktop.kde"}, float = 1})
 
+hl.layer_rule({match = {namespace = "noctalia-background-.*"}, ignore_alpha = 0.5, blur = true, blur_popups = true})
+
+-- layerrule {
+--   name = noctalia
+--   match:namespace = noctalia-background-.*$
+--   ignore_alpha = 0.5
+--   blur = true
+--   blur_popups = true
+-- }
 -- hl.window_rule({match = {class = "org.gnome.Cheese"}, float = 1, size = (505,625)})
 
 -- hl.window_rule({

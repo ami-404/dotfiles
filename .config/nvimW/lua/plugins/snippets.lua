@@ -1,3 +1,5 @@
+if true then return {} end
+
 -- ~/.config/nvim/lua/plugins/snippets.lua
 return {
   -- { "nvim-mini/mini.snippets", enabled = false },

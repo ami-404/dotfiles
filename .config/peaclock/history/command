@@ -1,0 +1,13 @@
+timer 5s
+mode timer
+timer 5
+timer 5s
+timer 20m
+timer 20s
+timer 20m
+timer 20m
+timer 20s
+help
+help
+help
+timer 20m

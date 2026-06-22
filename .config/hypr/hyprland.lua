@@ -127,13 +127,25 @@ hl.config({
             natural_scroll = false,
         },
     },
+    cursor  = {
+      no_warps = true
+    }
+
 })
+
 
 hl.gesture({
     fingers = 3,
     direction = "horizontal",
     action = "workspace"
 })
+
+hl.gesture({
+    fingers = 3,
+    direction = "vertical",
+    action = function()
+        hl.exec_cmd("qs -c my-shell ipc call overview toggle")
+    end})
 
 -- Example per-device config
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Devices/ for more

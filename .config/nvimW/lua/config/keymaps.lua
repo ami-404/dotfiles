@@ -10,8 +10,8 @@ local opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = false })
 vim.api.nvim_set_keymap("i", "JK", "<Esc>", { noremap = false })
 
-keymap.set("i", "<C-l>","<Right>" )
-keymap.set("i", "<C-h>","<Left>" )
+keymap.set("i", "<C-S-l>","<Right>" )
+keymap.set("i", "<C-S-h>","<Left>" )
 
 --incriment/decri
 keymap.set("n", "+", "<C-a>")
@@ -21,7 +21,7 @@ keymap.set("n", "-", "<C-a>")
 keymap.set("n", "<C-a>", "gg<S-v>G")
 
 -- save file and quit
--- keymap.set("n", "<leader>w", ":update<Return>", opts)
+keymap.set("n", "<leader>w", ":update<Return>", opts)
 keymap.set("n", "<leader>r", ":update<Return>", opts)
 keymap.set("n", "<leader>q", ":quit<Return>", opts)
 keymap.set("n", "<leader>Q", ":qa<Return>", opts)
@@ -38,7 +38,7 @@ keymap.set("n", "<leader>Q", ":qa<Return>", opts)
 
 -- Split window
 keymap.set("n", "ss", ":split<Return>", opts)
--- keymap.set("n", "sv", ":vsplit<Return>", opts)
+keymap.set("n", "sv", ":vsplvt<Return>", opts)
 
 -- Move window
 keymap.set("n", "sh", "<C-w>h")
