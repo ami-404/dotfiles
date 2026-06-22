@@ -10,6 +10,8 @@ Singleton {
   property list<string> wallpapers: []
   property string currentWallpaper: ""
   property string backend: "awww"
+  // property var transition: []
+
 
   readonly property string cachePath: Quickshell.env("HOME") + "/.cache/quickshell/wallpapers.cache"
 
@@ -42,6 +44,9 @@ Singleton {
   }
 
   Component.onCompleted: {
+
+    // property string type: "outer"
+
     scanner.command = [
       "sh", "-c",
       "CACHE=\"" + root.cachePath + "\"; " +
@@ -56,7 +61,10 @@ Singleton {
   }
 
   function rescan() {
+   if (scanner.running) return;
+    
     wallpapers = [];
+
     scanner.command = [
       "sh", "-c",
       "CACHE=\"" + root.cachePath + "\"; " +
@@ -66,13 +74,19 @@ Singleton {
     scanner.running = true;
   }
 
+  // function setTransition() {
+  //   root.transition = ["--transition-type", "grow", "--transition-pos", "center", "--transition-duration", "1"] ...root.transition
+  // }
+
   function setWallpaper(path) {
     currentWallpaper = path;
+    // setTransition()
 
-    setProcess.command = ["awww", "img", path,
-      "--transition-type", "grow", "--transition-pos", "center",
-      "--transition-duration", "1"];
+    setProcess.command = ["awww", "img", "--transition-type", "random", path];
     setProcess.running = true;
+
+    setThemeProcess.command = ["wallust", "run", path, "-s"]
+    setThemeProcess.running = true
 
     // Save to config
     saveProcess.command = ["sh", "-c", 'printf "%s" "$1" > "$HOME/.config/quickshell/wallpaper.conf"', "sh", path];
@@ -81,6 +95,12 @@ Singleton {
 
   Process {
     id: setProcess
+    command: []
+    running: false
+  }
+
+  Process {
+    id: setThemeProcess
     command: []
     running: false
   }

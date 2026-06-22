@@ -13,19 +13,21 @@ Scope {
   property string previewPath: ""
 
   // signal escapePressed()
-  // property bool isPanelOpen: false
+  property bool isPanelOpen: false
 
   IpcHandler {
     target: "wallpaper"
 
     function toggle(): void {
-      wallpaperPanel.visible = !wallpaperPanel.visible;
-      if (wallpaperPanel.visible) {
-        root.searchText = "";
-        root.previewPath = "";
-        searchInput.forceActiveFocus();
-        if (WallpaperService.wallpapers.length === 0) WallpaperService.rescan();
-      }
+      // wallpaperPanel.visible = !wallpaperPanel.visible;
+      root.isPanelOpen = !root.isPanelOpen;
+      // if (wallpaperPanel.visible) {
+      // if (root.isPanelOpen) {
+      //   root.searchText = "";
+      //   root.previewPath = "";
+      //   // searchInput.forceActiveFocus();
+      //   if (WallpaperService.wallpapers.length === 0) WallpaperService.rescan();
+      // }
     }
   }
 
@@ -43,9 +45,18 @@ Scope {
     });
   }
 
+  Loader {
+    id: panelLoader
+    active: root.isPanelOpen
+    sourceComponent: windowComponent
+  }
+
+  Component {
+    id: windowComponent
+
   PanelWindow {
     id: wallpaperPanel
-    visible: false
+    visible: true
     focusable: true
     color: "transparent"
 
@@ -59,7 +70,7 @@ Scope {
       root.searchText = "";
       root.previewPath = "";
       searchInput.forceActiveFocus();
-      if (WallpaperService.wallpapers.length === 0) WallpaperService.rescan();
+      // if (WallpaperService.wallpapers.length === 0) WallpaperService.rescan();
     }
 
     anchors {
@@ -73,7 +84,8 @@ Scope {
     MouseArea {
       anchors.fill: parent
       // onClicked: escapePressed()
-      onClicked: wallpaperPanel.visible = false
+      onClicked: root.isPanelOpen = false
+      // onClicked: wallpaperPanel.visible = false
 
       Rectangle {
         anchors.fill: parent
@@ -198,7 +210,8 @@ Scope {
                 if (root.previewPath !== "") {
                   root.previewPath = "";
                 } else {
-                  wallpaperPanel.visible = false;
+                  // wallpaperPanel.visible = false;
+                  root.isPanelOpen = false;
                 }
               }
             }
@@ -251,6 +264,7 @@ Scope {
                 sourceSize.width: 200
                 sourceSize.height: 120
                 asynchronous: true
+                cache: false
 
                 Rectangle {
                   anchors.fill: parent
@@ -387,6 +401,7 @@ Scope {
         source: root.previewPath !== "" ? "file://" + root.previewPath : ""
         fillMode: Image.PreserveAspectFit
         asynchronous: true
+        cache: false
       }
 
       // Apply button
@@ -434,4 +449,5 @@ Scope {
       }
     }
   }
+}
 }

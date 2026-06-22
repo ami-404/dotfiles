@@ -6,13 +6,19 @@ import "overview" as Overview
 import "clock"  as Clock
 import "launcher" as Launcher
 import "wallpaper"  as Wallpaper
+import "notification" as Notification
 // import "activatelinux" as ActivateLinux
+import "config.js" as Config
 
 ShellRoot {
     // Every windows run under this single process, sharing memory space!
 
     Clock.Clock {
       id: clock
+    }
+
+    Notification.Notifications {
+      id: notification
     }
 
     Launcher.AppLauncher {
