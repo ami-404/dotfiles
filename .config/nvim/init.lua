@@ -1,6 +1,7 @@
 vim.opt.clipboard = "unnamedplus"
 
-vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = false })
+vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = false })
+vim.api.nvim_set_keymap("i", "JK", "<Esc>", { noremap = false })
 
 vim.g.mapleader = " "
 
