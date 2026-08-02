@@ -14,8 +14,8 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Overlay
     exclusionMode: WlrLayershell.Ignore 
     
-    implicitWidth: panelBg.implicitWidth + 15
-    implicitHeight: panelBg.implicitHeight + 50
+    implicitWidth: panelBg.implicitWidth + 8
+    implicitHeight: panelBg.implicitHeight
     color: "transparent"
 
     anchors {
@@ -24,7 +24,8 @@ PanelWindow {
     }
 
     margins {
-				top: 8
+        top: 28
+        // right: 6
     }
 
 

@@ -21,7 +21,7 @@ Singleton {
   Process {
     id: cpuProc
     command: ["sh", "-c", "top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\\([0-9.]*\\)%* id.*/\\1/' | awk '{print 100 - $1\"%\"}'"]
-    running: true
+    running: false
 
     stdout: StdioCollector {
       onStreamFinished: {
@@ -34,7 +34,7 @@ Singleton {
   Process {
     id: memProc
     command: ["sh", "-c", "free | grep Mem | awk '{printf \"%.1f%%\", ($3/$2) * 100.0}'"]
-    running: true
+    running: false
 
     stdout: StdioCollector {
       onStreamFinished: {
@@ -65,7 +65,7 @@ Singleton {
   Process {
     id: batteryProc
     command: ["sh", "-c", "printf '%s\\n%s' \"$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null || echo '99')\" \"$(cat /sys/class/power_supply/BAT*/status 2>/dev/null || echo 'Discharging')\""]
-    running: true
+    running: false
 
     stdout: StdioCollector {
       onStreamFinished: {
@@ -96,7 +96,7 @@ Singleton {
   Process {
     id: tempProc
     command: ["sh", "-c", "sensors 2>/dev/null | grep -E 'Package id 0|Tctl' | head -1 | awk '{print $2}' | sed 's/+//' || echo 'N/A'"]
-    running: true
+    running: false
 
     stdout: StdioCollector {
       onStreamFinished: {
@@ -111,11 +111,11 @@ Singleton {
     running: true
     repeat: true
     onTriggered: {
-      cpuProc.running = true
-      memProc.running = true
+      // cpuProc.running = true
+      // memProc.running = true
       netProc.running = true
-      batteryProc.running = true
-      tempProc.running = true
+      // batteryProc.running = true
+      // tempProc.running = true
     }
   }
 }

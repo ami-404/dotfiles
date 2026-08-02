@@ -4,13 +4,20 @@ import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
+import "../Singletons"
 
 import "../config.js" as Config
 
 Scope {
   id: root
-  property bool centerOpen: false
-  
+  property bool centerOpen: MenuState.notificationCenterOpen
+  // centerOpen: 
+
+  // property var debugInit: {
+  //   console.log(JSON.stringify(Time));
+  // }
+
   ListModel { id: history }
 
   NotificationServer {
@@ -133,8 +140,8 @@ Scope {
     color: "transparent"
     implicitWidth: 380
     
-    // Bind height to the new wrapper layout
-    implicitHeight: centerMainCol.implicitHeight + 24
+    // 1. Give it a fixed height instead of calculating it dynamically
+    implicitHeight: history.count > 0 ? 600 : 40 // 600 
 
     Rectangle {
       anchors.fill: parent
@@ -143,14 +150,105 @@ Scope {
       border.width: 2
       border.color: Config.colors.purple
 
-      // Wrapper layout to prevent header and list from overlapping
       ColumnLayout {
         id: centerMainCol
         anchors.fill: parent
         anchors.margins: 12
         spacing: 10
 
-        // Header Row
+        // quick controls 
+        Column {
+          // anchors.fill: parent
+          spacing: 5
+          visible: false
+          // anchors.fill: parent
+
+          Process {
+            id: colorPicker
+            command: ["hyprpicker", "-a"]
+          }
+
+          Process {
+            id: camera
+            command: ["snapshot"]
+          }
+
+          
+          // Horizontal Rule acting as a separator
+          Rectangle {
+              width: parent.parent.width
+              height: 1
+              color: "#555555"
+          }
+
+          RowLayout {
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: ""
+                color: "#cdd6f4"
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  root.centerOpen = false
+                  colorPicker.running = true
+                }
+              }
+            }
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: "󰄀"
+                color: "#cdd6f4"
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  root.centerOpen = false
+                  camera.running = true
+                }
+              }
+            }
+
+          }
+
+          Slider {
+          id: brightnessSlider
+          anchors.fill: parent
+          width: parent.parent.width
+          from: 0
+          to: 100
+          value: 50 // Pull this dynamically from your system shell service
+
+          onValueChanged: {
+              // Executes brightnessctl to set the brightness percentage
+              Process.run(["brightnessctl", "set", brightnessSlider.value + "%"])
+            }
+          }
+        }
+
+        // Header Row (Remains Unchanged)
         RowLayout {
           Layout.fillWidth: true
 
@@ -176,79 +274,83 @@ Scope {
           }
         }
 
-        // List Column
-        ColumnLayout {
-          id: listcolumn
+        
+
+        // 2. Scrollable ListView
+        ListView {
+          id: listView
           Layout.fillWidth: true
+          Layout.fillHeight: true // Takes up all remaining space below the header
+          clip: true              // Prevents notifications from drawing outside the list
           spacing: 10
+          
+          model: history
 
-          Repeater {
-            model: history // Use the history ListModel here
+          delegate: Rectangle {
+            id: historyCard
+            
+            // 3. Fix Layout properties for ListView constraints
+            width: ListView.view.width 
+            implicitHeight: cardCol.implicitHeight + 20 
+            
+            radius: 8
+            color: Config.colors.bg
+            border.width: 2
+            border.color: model.urgency === NotificationUrgency.Critical ? Config.colors.red : Config.colors.purple
 
-            delegate: Rectangle {
-              id: historyCard
-              Layout.fillWidth: true
-              Layout.preferredHeight: cardCol.implicitHeight + 20
-              radius: 8
-              color: Config.colors.bg
-              border.width: 2
-              // Access property directly via model.urgency
-              border.color: model.urgency === NotificationUrgency.Critical ? Config.colors.red : Config.colors.purple
+            ColumnLayout {
+              id: cardCol
+              anchors.fill: parent
+              anchors.margins: 8
+              spacing: 2
 
-              ColumnLayout {
-                id: cardCol
-                anchors.fill: parent
-                anchors.margins: 8
-                spacing: 2
-
-                RowLayout {
-                  Layout.fillWidth: true
-                  spacing: 6
-
-                  Text {
-                    Layout.fillWidth: true
-                    text: model.summary
-                    color: Config.colors.fg
-                    font.family: Config.bar.fontFamily
-                    font.pixelSize: Config.bar.fontSize
-                    font.bold: true
-                    elide: Text.ElideRight
-                  }
-                  Text {
-                    text: model.time
-                    color: Config.colors.muted
-                    font.family: Config.bar.fontFamily
-                    font.pixelSize: Config.bar.fontSize - 3
-                  }
-                  Text {
-                    text: "x"
-                    color: Config.colors.muted
-                    font.family: Config.bar.fontFamily
-                    font.pixelSize: Config.bar.fontSize - 1
-                    MouseArea {
-                      anchors.fill: parent
-                      onClicked: history.remove(index)
-                    }
-                  }
-                }
+              RowLayout {
+                Layout.fillWidth: true
+                spacing: 6
 
                 Text {
                   Layout.fillWidth: true
-                  visible: text !== ""
-                  text: model.body
+                  text: model.summary
                   color: Config.colors.fg
                   font.family: Config.bar.fontFamily
-                  font.pixelSize: Config.bar.fontSize - 1
-                  wrapMode: Text.WordWrap
+                  font.pixelSize: Config.bar.fontSize
+                  font.bold: true
+                  elide: Text.ElideRight
                 }
-
                 Text {
-                  visible: model.appName !== ""
-                  text: model.appName
+                  text: model.time
                   color: Config.colors.muted
                   font.family: Config.bar.fontFamily
                   font.pixelSize: Config.bar.fontSize - 3
                 }
+                Text {
+                  text: "x"
+                  color: Config.colors.muted
+                  font.family: Config.bar.fontFamily
+                  font.pixelSize: Config.bar.fontSize - 1
+                  MouseArea {
+                    anchors.fill: parent
+                    onClicked: history.remove(index)
+                  }
+                }
+              }
+
+              Text {
+                Layout.fillWidth: true
+                visible: text !== ""
+                text: model.body
+                color: Config.colors.fg
+                font.family: Config.bar.fontFamily
+                font.pixelSize: Config.bar.fontSize - 1
+                wrapMode: Text.WordWrap
+              }
+
+              Text {
+                visible: model.appName !== ""
+                text: model.appName
+                color: Config.colors.muted
+                font.family: Config.bar.fontFamily
+                font.pixelSize: Config.bar.fontSize - 3
               }
             }
           }

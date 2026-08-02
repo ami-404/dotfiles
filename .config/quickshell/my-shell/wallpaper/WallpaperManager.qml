@@ -128,6 +128,84 @@ Scope {
 
           Item { Layout.fillWidth: true }
 
+          Rectangle {
+            width: 30
+            height: 18
+            radius: 4
+            color: root.theme.bgSurface
+
+            Text {
+              anchors.centerIn: parent
+              text: "def"
+              color: root.theme.textMuted
+              font.pixelSize: 14
+              font.family: root.font
+            }
+
+            MouseArea {
+              id: changeDir
+              anchors.fill: parent
+              hoverEnabled: true
+              cursorShape: Qt.PointingHandCursor
+              onClicked: { 
+                WallpaperService.changePath("$Home/Pictures/wallpapers/")
+                WallpaperService.rescan();
+              }
+            }
+          }
+
+          Rectangle {
+            width: 42
+            height: 18
+            radius: 4
+            color: root.theme.bgSurface
+
+            Text {
+              anchors.centerIn: parent
+              text: "mocha"
+              color: root.theme.textMuted
+              font.pixelSize: 14
+              font.family: root.font
+            }
+
+            MouseArea {
+              id: setMocha
+              anchors.fill: parent
+              hoverEnabled: true
+              cursorShape: Qt.PointingHandCursor
+              onClicked: {
+                WallpaperService.changePath("$HOME/Pictures/wallpapers/cat-mocha/")
+                WallpaperService.rescan();
+              }
+            }
+          }
+
+          Rectangle {
+            width: 30
+            height: 18
+            radius: 4
+            color: root.theme.bgSurface
+
+            Text {
+              anchors.centerIn: parent
+              text: "wall"
+              color: root.theme.textMuted
+              font.pixelSize: 14
+              font.family: root.font
+            }
+
+            MouseArea {
+              id: changeToWal
+              anchors.fill: parent
+              hoverEnabled: true
+              cursorShape: Qt.PointingHandCursor
+              onClicked: {
+                WallpaperService.changePath("$HOME/Pictures/wallpapers/orangci-wall/");
+                WallpaperService.rescan();
+              }
+            }
+          }
+
           Text {
             text: root.filteredWallpapers.length + " images"
             color: root.theme.textMuted

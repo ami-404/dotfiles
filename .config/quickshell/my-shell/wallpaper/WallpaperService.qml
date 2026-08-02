@@ -10,6 +10,7 @@ Singleton {
   property list<string> wallpapers: []
   property string currentWallpaper: ""
   property string backend: "awww"
+  property string wallPath: "$HOME/Pictures/wallpapers/"
   // property var transition: []
 
 
@@ -54,7 +55,7 @@ Singleton {
       "  cat \"$CACHE\"; " +
       "else " +
       "  mkdir -p \"$(dirname \"$CACHE\")\" && " +
-      "  find ~/Pictures/wallpapers -maxdepth 2 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \\) 2>/dev/null | sort -u | head -200 | tee \"$CACHE\"; " +
+      "  find \"" + root.wallPath + "\" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \\) 2>/dev/null | sort -u | tee \"$CACHE\"; " +
       "fi"
     ];
     scanner.running = true;
@@ -69,9 +70,10 @@ Singleton {
       "sh", "-c",
       "CACHE=\"" + root.cachePath + "\"; " +
       "mkdir -p \"$(dirname \"$CACHE\")\" && " +
-      "find ~/Pictures/wallpapers -maxdepth 2 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \\) 2>/dev/null | sort -u | head -200 | tee \"$CACHE\""
+      "find \"" + root.wallPath + "\" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \\) 2>/dev/null | sort -u | tee \"$CACHE\""
     ];
     scanner.running = true;
+    // console.log(wallpapers)
   }
 
   // function setTransition() {
@@ -91,6 +93,13 @@ Singleton {
     // Save to config
     saveProcess.command = ["sh", "-c", 'printf "%s" "$1" > "$HOME/.config/quickshell/wallpaper.conf"', "sh", path];
     saveProcess.running = true;
+  }
+
+  function changePath(path) {
+    // if (root.wallPath != path) {
+      root.wallPath = path
+      // console.log(path)
+    // }
   }
 
   Process {

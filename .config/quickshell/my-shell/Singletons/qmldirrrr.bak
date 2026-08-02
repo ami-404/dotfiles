@@ -1,0 +1,2 @@
+# Inside the qmldir file:
+singleton  ToggleService 1.0 ToggleService.qml

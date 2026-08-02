@@ -10,14 +10,15 @@ Scope {
   id: root
   property var theme: DefaultTheme {}
   property string font: "Hack Nerd Font"
+  property bool isOpen: false
   // signal escapePressed()
 
   IpcHandler {
     target: "launcher"
 
     function toggle(): void {
-      launcherPanel.visible = !launcherPanel.visible
-      if (launcherPanel.visible) {
+      root.isOpen = !root.isOpen
+      if (root.isOpen) {
         searchInput.text = ""
         selectedIndex = 0
         searchInput.forceActiveFocus()
@@ -53,13 +54,13 @@ Scope {
 
   function launchApp(entry) {
     entry.execute();
-    launcherPanel.visible = false;
+    root.isOpen = false;
     // escapePressed()
   }
 
   PanelWindow {
     id: launcherPanel
-    visible: false
+    visible: root.isOpen
     focusable: true
     color: "transparent"
 
@@ -86,7 +87,7 @@ Scope {
     MouseArea {
       anchors.fill: parent
       // onClicked: escapePressed()
-      onClicked: launcherPanel.visible = false
+      onClicked: root.isOpen = false
 
       Rectangle {
         anchors.fill: parent
@@ -169,7 +170,7 @@ Scope {
 
               onTextChanged: root.selectedIndex = 0
 
-              Keys.onEscapePressed: launcherPanel.visible = false
+              Keys.onEscapePressed: root.isOpen = false
               // Keys.onEscapePressed: escapePressed()
 
               Keys.onPressed: event => {
