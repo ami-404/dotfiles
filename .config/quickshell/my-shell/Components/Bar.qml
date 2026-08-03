@@ -26,7 +26,8 @@ PanelWindow {
 
   implicitHeight: 25
   // color: root.theme.bgBase
-  color: "transparent"
+  // color: "transparent"
+  color: launcher.isOpen || wallpaper.isPanelOpen ? "#9911111B" :  "transparent"
 
   property var theme: DefaultTheme {}
   property string font: "Hack Nerd Font"

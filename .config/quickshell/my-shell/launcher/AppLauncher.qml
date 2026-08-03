@@ -61,13 +61,20 @@ Scope {
   PanelWindow {
     id: launcherPanel
     visible: root.isOpen
-    focusable: true
+    // focusable: true
     color: "transparent"
 
     Component.onCompleted: {
         searchInput.text = ""
         selectedIndex = 0
         searchInput.forceActiveFocus()
+
+      // 3. Force the Wayland properties here to prevent PanelWindow's 
+      // built-in defaults from silently overriding them back to Top layer
+      if (this.WlrLayershell != null) {
+          this.WlrLayershell.layer = WlrLayer.Overlay
+          this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.Exclusive
+      }
     }
 
     WlrLayershell.layer: WlrLayer.Overlay

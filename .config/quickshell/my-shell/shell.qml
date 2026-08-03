@@ -27,7 +27,9 @@ ShellRoot {
     //   id: notification
     // }
 
-    Bar { }
+    Bar {
+      id: statusBar
+    }
 
     WifiMenu { }
 
