@@ -42,6 +42,7 @@ vim.opt.wildignore:append({ "*/node_modules/*" })
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.splitkeep = "cursor"
+vim.opt.shell = "/usr/bin/zsh"
 -- vim.opt.mouse = ""
 
 vim.opt.formatoptions:append({ "r" })

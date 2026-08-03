@@ -7,6 +7,10 @@ fi
 
 export PATH="$HOME/.local/bin:$PATH"
 
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 # directory for zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -135,6 +139,7 @@ abbrev-alias ga="git add ."
 abbrev-alias gcb="git checkout --branch"
 abbrev-alias gc="git commit -m "
 abbrev-alias ll="ls -lA"
+abbrev-alias lss="ls -a | grep -i "
 
 # alias
 alias ls='ls --color'
@@ -179,3 +184,16 @@ bindkey -s ^v "nvim\n"
 # shell integration
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+. "/home/ameen/.deno/env"
+
+# automatically switches Node.js versions when you enter a directory containing a .node-version or .nvmrc file
+# eval "$(fnm env --use-on-cd)"
+eval "$(fnm env --use-on-cd --shell zsh)"
+
+# pnpm
+# export PNPM_HOME="/home/ameen/.local/share/pnpm"
+# case ":$PATH:" in
+#   *":$PNPM_HOME:"*) ;;
+#   *) export PATH="$PNPM_HOME:$PATH" ;;
+# esac
+# pnpm end

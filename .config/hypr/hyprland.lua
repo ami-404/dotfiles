@@ -23,7 +23,7 @@
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 hl.monitor({
     output   = "",
-    mode     = "preferred",
+    mode     = "prefered",
     position = "auto",
     scale    = "auto",
 })
@@ -59,12 +59,18 @@ require("configs.autostart")
 -------------------------------
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
+hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
 
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+hl.env("QT_STYLE_OVERRIDE", "")
+
+-- Shrinks toolkit application sizing perfectly without pixel stretching
+hl.env("GDK_SCALE", "0.95")
+hl.env("QT_SCALE_FACTOR", "0.95")
 
 -----------------------
 ----- PERMISSIONS -----
@@ -103,6 +109,14 @@ hl.config({
         force_default_wallpaper = 0,    -- Set to 0 or 1 to disable the anime mascot wallpapers
         disable_hyprland_logo   = false, -- If true disables the random hyprland logo / anime girl background. :(
     },
+})
+
+hl.config({
+    -- If you use XWayland apps (like Steam, old Electron apps, Discord), 
+    -- prevent Hyprland from blurring them by forcing raw pixel density
+    xwayland = {
+        force_zero_scaling = true
+    }
 })
 
 

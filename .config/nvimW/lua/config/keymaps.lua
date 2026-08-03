@@ -52,6 +52,10 @@ keymap.set("n", "<C-S-l>", "<C-w>>")
 keymap.set("n", "<C-S-k>", "<C-w>+")
 keymap.set("n", "<C-S-j>", "<C-w>-")
 
+-- vim.keymap.set("n", "<leader>fT", 
+--   function() Snacks.terminal(nil, { win = { position = "left" }}) end, 
+-- { desc = "Terminal left" })
+
 -- -- Diagnostics
 -- keymap.set("n", "<C-j>", function()
 --   vim.diagnostic.jump({ count = 1 })

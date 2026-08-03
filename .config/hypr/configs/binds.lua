@@ -21,7 +21,7 @@ hl.bind(mainMod .. " + SHIFT + Return", hl.dsp.exec_cmd("[float; size 600 400; c
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 -- hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(brave))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(helium))
-hl.bind(mainMod .. " + CTRL + B", hl.dsp.exec_cmd(firefox))
+hl.bind(mainMod .. " + CTRL + B", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("pkill -x waybar || waybar"))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("rofi -show emoji"))
 hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("gnome-calculator"))
@@ -30,11 +30,11 @@ hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("gnome-calculator"))
 -- launcher
 -- hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(ipc .. " launcher toggle"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + CTRL + SPACE", hl.dsp.exec_cmd("dotfiles/.config/rofi/launchers/type-6/launcher.sh"))
+hl.bind(mainMod .. " + CTRL + SPACE", hl.dsp.exec_cmd("QT_SCALE_FACTOR=1 dotfiles/.config/rofi/launchers/type-6/launcher.sh"))
 
 -- Wallpapers
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("~/scripts/change-wal.sh"))
-hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.exec_cmd("qs -c my-shell ipc call wallpaper toggle"))
+hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.exec_cmd("QT_SCALE_FACTOR=1 qs -c my-shell ipc call wallpaper toggle"))
 -- hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.exec_cmd("~/Pictures/wallpapers/wal-picker.sh"))
 
 -- logout
@@ -148,6 +148,7 @@ end
 
 -- Example special workspace (scratchpad)
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
+hl.bind(mainMod .. " + I", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", function()
 	local win = hl.get_active_window()
 	if win == nil then
@@ -177,6 +178,8 @@ hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m output -m active -o ~/Pictures/Scr
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m window -o ~/Pictures/Screenshots"))
 
 hl.bind("CTRL + SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region -o ~/Pictures/Screenshots"))
+
+hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("hyprshot -m region --raw --silent | tesseract stdin stdout -l eng 2>/dev/null | wl-copy"))
 
 
 
