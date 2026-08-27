@@ -60,6 +60,8 @@ require("configs.autostart")
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
+hl.env("XDG_SESSION_DESKTOP", "Hyprland")
+hl.env("KDE_FULL_SESSION", "false")
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
@@ -141,6 +143,7 @@ hl.config({
             natural_scroll = false,
         },
     },
+
     cursor  = {
       no_warps = true
     }

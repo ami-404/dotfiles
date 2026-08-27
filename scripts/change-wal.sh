@@ -20,6 +20,6 @@ else
 fi
 
 awww img "$SELECTED" $SWWW_PARAMS
-wallust run "$SELECTED" -s
+# wallust run "$SELECTED" -s
 # swaync-client -rs
 # wal -i "$RANDOM_PIC"

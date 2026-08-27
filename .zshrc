@@ -112,6 +112,8 @@ export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 
+export PYGAME_DETECT_AVX2=1
+
 # history
 HISTSIZE=5000
 HISTFILE=~/.zsh_history

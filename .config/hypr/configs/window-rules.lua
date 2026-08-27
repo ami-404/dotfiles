@@ -60,6 +60,7 @@ hl.window_rule({match = {class = ".*thunar.*", title = ".*Rename.*"}, float = 1}
 hl.window_rule({match = {class = ".*thunar.*", title = ".*File Operation Progress.*"}, float = 1})
 hl.window_rule({match = {class = "Tk"}, float = 1})
 hl.window_rule({match = {class = "mpv"}, float = 1})
+hl.window_rule({match = {class = "vlc"}, float = 1})
 hl.window_rule({match = {class = "firefox", title = "Picture-in-Picture"}, float = 1})
 hl.window_rule({match = {class = "librewolf", title = "Picture-in-Picture"}, float = 1})
 hl.window_rule({match = {title = ".*Open File.*"}, float = 1})
@@ -73,6 +74,8 @@ hl.window_rule({match = {initial_title = "Godot"}, float = 1})
 hl.window_rule({match = {class = "org.godotengine.Editor", initial_title = "Godot"}, tile = 1})
 
 hl.window_rule({match = {class = "brave-browser", title = ".*Sign in.*"}, float = 1})
+hl.window_rule({match = {class = "helium", title = ".*Sign in.*"}, float = 1})
+
 hl.window_rule({match = {class = "org.kde.gwenview"}, float = 1})
 
 hl.window_rule({match = {title = ".*Save File.*"}, float = 1})

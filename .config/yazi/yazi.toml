@@ -1,9 +1,9 @@
 [opener]
 image = [{ run = "gwenview \"$@\"", desc = "Gwenview" }]
-
 image-term = [{ run = "feh --auto-zoom --scale-down \"$@\"", desc = "Feh"}]
 
 video = [{ run = "mpv \"$@\"", desc = "Mpv" }]
+vlc_video = [{ run = "vlc \"$@\"", desc = "VLC" }]
 
 # audio = [{ run = "open --use=play_audio", desc = "Play audio in background with mpv" }]
 # audio = [{ run = "vlc \"$@\"", desc = "VLC" }]
@@ -11,24 +11,50 @@ video = [{ run = "mpv \"$@\"", desc = "Mpv" }]
 pdf = [{ run = "okular \"$@\"", desc = "Okular" }]
 
 text = [{ run = "nvim \"$@\"", desc = "Neovim", block = true }]
+text_gnome = [{ run = "gnome-text-editor \"$@\"", desc = "Text editor"}]
 
 browser = [{ run = "firefox \"$@\"", desc = "Firefox" }]
+helium_browser = [{ run = "helium.AppImage \"$@\"", desc = "Helium" }]
 
 zip = [{ run = "ark \"$@\"", desc = "Ark" }]
 
 play_audio = [{ run = 'mpv --audio-display=no --video=no "$@"', orphan = true, for = "unix" }]
+vlc_audio = [{ run = "vlc \"$@\"", desc = "VLC" }]
+
+xdg = [{ run = 'xdg-open "$@"', desc = "System Default" }]
 
 [open]
 rules = [
   # { mime = "image/*", use = "image" },
-  { mime = "image/*", use = "image-term" },
-  { mime = "video/*", use = "video" },
-  { mime = "audio/*", use = "play_audio" },
+  { mime = "image/*", use = ["image-term", "image" ]},
+  { mime = "video/*", use = ["video", "vlc_video"]},
+  { mime = "audio/*", use = ["play_audio", "vlc_audio"]},
   # { mime = "audio/*", use = "audio" },
   { mime = "application/pdf", use = "pdf" },
-  { mime = "text/*", use = "text" },
+  { url = "*.html", use = ["helium_browser", "browser", "text", "text_gnome"]},
+  { mime = "text/*", use = ["text", "text_gnome"]},
   { mime = "application/zip", use = "zip" },
+  { mime = "*", use = "xdg" }
+  # { run = "xdg-open %s1", desc = "Open" },
 ]
+
+
+# [plugin]
+# preloaders = [
+#     # ... other preloaders
+#     { mime = "application/pdf", run = "pdf" },
+# ]
+
+# previewers = [
+#     # ... other previewers
+#     { mime = "image/*", run = "image" },
+#     { mime = "video/*", run = "video" },
+#     { mime = "application/pdf", run = "pdf" },
+#     { mime = "text/*", run = "text"},
+# ]
+
+[mgr]
+linemode = "size"
 
 # [manager]
 # prepend_keymap = [

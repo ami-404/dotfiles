@@ -33,8 +33,8 @@ vim.opt.inccommand = "split"
 vim.opt.ignorecase = true
 vim.opt.smarttab = true
 vim.opt.breakindent = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
 vim.opt.wrap = true -- false
 vim.opt.backspace = { "start", "eol", "indent" }
 vim.opt.path:append({ "**" })
@@ -44,5 +44,14 @@ vim.opt.splitright = true
 vim.opt.splitkeep = "cursor"
 vim.opt.shell = "/usr/bin/zsh"
 -- vim.opt.mouse = ""
+
+-- Language-specific overrides
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact", "html", "css", "json", "lua" },
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+  end,
+})
 
 vim.opt.formatoptions:append({ "r" })
