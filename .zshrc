@@ -11,6 +11,10 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# export WAYLAND_DISPLAY=wayland-0
+# export QT_QPA_PLATFORM=wayland
+# export GDK_BACKEND=wayland
+
 # directory for zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 

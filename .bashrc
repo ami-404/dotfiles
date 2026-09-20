@@ -11,6 +11,10 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# export WAYLAND_DISPLAY=wayland-0
+# export QT_QPA_PLATFORM=wayland
+# export GDK_BACKEND=wayland
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias q='exit'

@@ -1,27 +1,27 @@
 [opener]
-image = [{ run = "gwenview \"$@\"", desc = "Gwenview" }]
-image-term = [{ run = "feh --auto-zoom --scale-down \"$@\"", desc = "Feh"}]
+image = [{ run = "gwenview %s", desc = "Gwenview" }]
+image-term = [{ run = "feh --auto-zoom --scale-down %s", desc = "Feh"}]
 
-video = [{ run = "mpv \"$@\"", desc = "Mpv" }]
-vlc_video = [{ run = "vlc \"$@\"", desc = "VLC" }]
+video = [{ run = "mpv %s", desc = "Mpv" }]
+vlc_video = [{ run = "vlc %s", desc = "VLC" }]
 
 # audio = [{ run = "open --use=play_audio", desc = "Play audio in background with mpv" }]
 # audio = [{ run = "vlc \"$@\"", desc = "VLC" }]
 
-pdf = [{ run = "okular \"$@\"", desc = "Okular" }]
+pdf = [{ run = "okular %s", desc = "Okular" }]
 
-text = [{ run = "nvim \"$@\"", desc = "Neovim", block = true }]
-text_gnome = [{ run = "gnome-text-editor \"$@\"", desc = "Text editor"}]
+text = [{ run = "nvim %s", desc = "Neovim", block = true }]
+text_gnome = [{ run = "gnome-text-editor %s", desc = "Text editor"}]
 
-browser = [{ run = "firefox \"$@\"", desc = "Firefox" }]
-helium_browser = [{ run = "helium.AppImage \"$@\"", desc = "Helium" }]
+browser = [{ run = "firefox %s", desc = "Firefox" }]
+helium_browser = [{ run = "helium.AppImage %s", desc = "Helium" }]
 
-zip = [{ run = "ark \"$@\"", desc = "Ark" }]
+zip = [{ run = "ark %s", desc = "Ark" }]
 
-play_audio = [{ run = 'mpv --audio-display=no --video=no "$@"', orphan = true, for = "unix" }]
-vlc_audio = [{ run = "vlc \"$@\"", desc = "VLC" }]
+play_audio = [{ run = 'mpv --audio-display=no --video=no %S', orphan = true, for = "unix" }]
+vlc_audio = [{ run = "vlc %s", desc = "VLC" }]
 
-xdg = [{ run = 'xdg-open "$@"', desc = "System Default" }]
+xdg = [{ run = 'xdg-open %s1', desc = "System Default" }]
 
 [open]
 rules = [

@@ -13,6 +13,12 @@ local suppressMaximizeRule = hl.window_rule({
 })
 -- suppressMaximizeRule:set_enabled(false)
 
+-- disable blur for apps that are not kitty
+hl.window_rule({
+    match = { class = "^(?!kitty$).*" }, 
+    no_blur = true
+})
+
 hl.window_rule({
     -- Fix some dragging issues with XWayland
     name  = "fix-xwayland-drags",
