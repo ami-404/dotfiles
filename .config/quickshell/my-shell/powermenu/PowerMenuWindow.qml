@@ -181,7 +181,7 @@ PanelWindow {
             }
 
             PowerButton { 
-                iconTxt: ""; 
+                iconTxt: "󰌾"; 
                 onClicked: { Quickshell.execDetached(["loginctl", "lock-session"]) } 
                 // onClicked: { Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-power -l"]) } 
             }
@@ -194,11 +194,11 @@ PanelWindow {
                 onClicked: { Quickshell.execDetached(["hyprctl", "dispatch", 'hl.dsp.exit()']) } 
             }
             PowerButton { 
-                iconTxt: ""; 
+                iconTxt: ""; 
                 onClicked: { Quickshell.execDetached(["systemctl", "reboot"]) } 
             }
             PowerButton { 
-                iconTxt: ""; 
+                iconTxt: "⏻"; 
                 onClicked: { Quickshell.execDetached(["systemctl", "poweroff"]) } 
             }
         }

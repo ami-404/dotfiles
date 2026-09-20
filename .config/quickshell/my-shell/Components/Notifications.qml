@@ -1,6 +1,5 @@
 import Quickshell
 import Quickshell.Io
-import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import QtQuick
 import QtQuick.Layouts
@@ -35,6 +34,7 @@ Scope {
         time: Qt.formatDateTime(new Date(), "HH:mm")
       })
       n.tracked = true
+      MenuState.notificationPresent = true
     }
   }
 
@@ -141,7 +141,7 @@ Scope {
     implicitWidth: 380
     
     // 1. Give it a fixed height instead of calculating it dynamically
-    implicitHeight: history.count > 0 ? 600 : 40 // 600 
+    implicitHeight: history.count > 0 ? 600 : 100 // 600 
 
     Rectangle {
       anchors.fill: parent
@@ -163,15 +163,15 @@ Scope {
           visible: false
           // anchors.fill: parent
 
-          Process {
-            id: colorPicker
-            command: ["hyprpicker", "-a"]
-          }
+          // Process {
+          //   id: colorPicker
+          //   command: ["hyprpicker", "-a"}
+          // }
 
-          Process {
-            id: camera
-            command: ["snapshot"]
-          }
+          // Process {
+          //   id: camera
+          //   command: ["snapshot"]
+          // }
 
           
           // Horizontal Rule acting as a separator
@@ -233,22 +233,348 @@ Scope {
 
           }
 
-          Slider {
-          id: brightnessSlider
-          anchors.fill: parent
-          width: parent.parent.width
-          from: 0
-          to: 100
-          value: 50 // Pull this dynamically from your system shell service
+          // Slider {
+          // id: brightnessSlider
+          // anchors.fill: parent
+          // width: parent.parent.width
+          // from: 0
+          // to: 100
+          // value: 50 // Pull this dynamically from your system shell service
 
-          onValueChanged: {
-              // Executes brightnessctl to set the brightness percentage
-              Process.run(["brightnessctl", "set", brightnessSlider.value + "%"])
-            }
-          }
+          // onValueChanged: {
+          //     // Executes brightnessctl to set the brightness percentage
+          //     Process.run(["brightnessctl", "set", brightnessSlider.value + "%"])
+          //   }
+          // }
         }
 
-        // Header Row (Remains Unchanged)
+        // controll center
+        ColumnLayout {
+
+          RowLayout {
+            Layout.fillWidth: true
+
+            Process {
+              id: colorPicker
+              command: ["sh", "-c", "sleep 0.2;hyprpicker -a"]
+            }
+
+            Process {
+              id: camera
+              command: ["snapshot"]
+            }
+
+            Process {
+              id: lock
+              command: ["loginctl", "lock-session"]
+            }
+
+            Process {
+              id: suspend
+              command: ["systemctl", "suspend"]
+            }
+
+            Process {
+              id: logout
+              command: ["hyprctl", "dispatch", 'hl.dsp.exit()']
+            }
+            
+            Process {
+              id: power
+              command: ["systemctl", "poweroff"]
+            }
+
+            Process {
+              id: reboot
+              command: ["systemctl", "reboot"]
+            }
+
+
+
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: ""
+                color: "#cdd6f4"
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  MenuState.notificationCenterOpen = false
+                  colorPicker.running = true
+                }
+              }
+            }
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: "󰄀"
+                color: "#cdd6f4"
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  MenuState.notificationCenterOpen = false
+                  camera.running = true
+                }
+              }
+            }
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: ToggleService.inhibitIdle ? "" : "" 
+                color: "#cdd6f4"
+                anchors.centerIn: parent
+                MouseArea {
+                  anchors.fill: parent
+                  onClicked: ToggleService.chngIdleState()
+                }
+              }
+            }
+
+            Item {
+              Layout.fillWidth: true
+            }
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: "󰌾"
+                color: '#7b9aff'
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  MenuState.notificationCenterOpen = false
+                  lock.running = true
+                }
+              }
+            }
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: ""
+                color: '#70ff6b'
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  MenuState.notificationCenterOpen = false
+                  suspend.running = true
+                }
+              }
+            }
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: ""
+                color: "#cdd6f4"
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  MenuState.notificationCenterOpen = false
+                  logout.running = true
+                }
+              }
+            }
+
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: ""
+                color: '#ff9d33'
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  MenuState.notificationCenterOpen = false
+                  reboot.running = true
+                }
+              }
+            }
+
+            Rectangle {
+              radius: 8
+              width: 25
+              height: 25
+              border.color: "#555555"
+              border.width: 1
+              color: "Transparent"
+
+              Text {
+                text: "⏻"
+                color: '#ff585e'
+                font.family: Config.bar.fontFamily
+                anchors.centerIn: parent
+              }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                  MenuState.notificationCenterOpen = false
+                  power.running = true
+                }
+              }
+            }
+
+          }
+
+
+          // sliders
+          ColumnLayout {
+            spacing: 10
+
+            // Get Brightness using brightnessctl
+            Process {
+              id: initBrightnessCur
+              command: ["brightnessctl", "g"]
+              running: true
+              stdout: StdioCollector {
+                onStreamFinished: {
+                  var cur = parseInt(text.trim());
+                  if (!isNaN(cur)) initBrightnessMax.currentValue = cur;
+                }
+              }
+            }
+
+            Process {
+              id: initBrightnessMax
+              property int currentValue: -1
+              command: ["brightnessctl", "m"]
+              running: currentValue !== -1 // Runs only after current value is fetched
+              stdout: StdioCollector {
+                onStreamFinished: {
+                  var max = parseInt(text.trim());
+                    if (!isNaN(max) && initBrightnessMax.currentValue !== -1) {
+                    brightnessSlider.value = Math.round((initBrightnessMax.currentValue / max) * 100);
+                  }
+                }
+              }
+            }
+
+            // 2. Get Volume
+            Process {
+              id: initVolume
+              command: ["wpctl", "get-volume", "@DEFAULT_AUDIO_SINK@"]
+              running: true
+              stdout: StdioCollector {
+                onStreamFinished: {
+                  let cleaned = text.replace("Volume:", "").trim().split(" ")[0];
+                  let vol = parseFloat(cleaned);
+                  if (!isNaN(vol)) {
+                      volumeSlider.value = Math.round(vol * 100);
+                  }
+                }
+              }
+            }
+
+
+            Slider {
+              id: brightnessSlider
+
+              Layout.fillWidth: true
+              Layout.preferredHeight: 10
+
+              from: 0
+              to: 100
+              // value: 20
+
+              onMoved: {
+                // Executes brightnessctl to set the brightness percentage
+                Quickshell.execDetached(["brightnessctl", "set", Math.round(brightnessSlider.value) + "%"])
+              }
+            }
+
+            Slider {
+              id: volumeSlider
+              
+              Layout.fillWidth: true
+              Layout.preferredHeight: 10
+              // Layout.margins: 1
+              
+              from: 0
+              to: 100
+              value: 50 
+
+              onMoved: {
+                var percent = Math.round(volumeSlider.value);
+                // wpctl uses decimal values (e.g., 50% = 0.50)
+                var volumeValue = (percent / 100).toFixed(2);
+                
+                // Sets the volume for the default audio output (@DEFAULT_AUDIO_SINK@)
+                Quickshell.execDetached(["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", volumeValue]);
+              }
+            }
+          }
+
+        // Name row
         RowLayout {
           Layout.fillWidth: true
 
@@ -269,10 +595,11 @@ Scope {
             font.pixelSize: Config.bar.fontSize - 1
             MouseArea {
               anchors.fill: parent
-              onClicked: history.clear()
+              onClicked: history.clear(), MenuState.notificationPresent = false
             }
           }
         }
+
 
         
 
@@ -358,4 +685,4 @@ Scope {
       }
     }
   }
-}
+}}

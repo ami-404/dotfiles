@@ -1,6 +1,7 @@
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Wayland
 import Quickshell.Hyprland
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
@@ -18,6 +19,11 @@ PanelWindow {
   // screen: modelData
   visible: root.barVisible
 
+  IdleInhibitor {
+  window: root
+  enabled: ToggleService.inhibitIdle
+  }
+
   anchors {
     top: true
     left: true
@@ -32,6 +38,7 @@ PanelWindow {
   property var theme: DefaultTheme {}
   property string font: "Hack Nerd Font"
   property bool barVisible: true
+
 
   // MPRIS active player
   // property var activePlayer: {
@@ -230,63 +237,63 @@ PanelWindow {
       }
 
       // Workspaces
-      Row {
-        spacing: 4
-        visible: false
+      // Row {
+      //   spacing: 4
+      //   visible: false
 
-        Repeater {
-          model: Hyprland.workspaces
+      //   Repeater {
+      //     model: Hyprland.workspaces
 
-          Rectangle {
-            id: wsPill
-            required property var modelData
-            property bool urgentBlink: false
+      //     Rectangle {
+      //       id: wsPill
+      //       required property var modelData
+      //       property bool urgentBlink: false
 
-            Accessible.role: Accessible.Button
-            Accessible.name: "Workspace " + modelData.id + (modelData.focused ? ", active" : "") + (modelData.urgent ? ", urgent" : "")
+      //       Accessible.role: Accessible.Button
+      //       Accessible.name: "Workspace " + modelData.id + (modelData.focused ? ", active" : "") + (modelData.urgent ? ", urgent" : "")
 
-            width: modelData.focused ? 32 : 24
-            height: 24
-            radius: 12
-            color: modelData.focused ? root.theme.accentPrimary :
-                    modelData.urgent && urgentBlink ? root.theme.accentRed : root.theme.bgSurface
+      //       width: modelData.focused ? 32 : 24
+      //       height: 24
+      //       radius: 12
+      //       color: modelData.focused ? root.theme.accentPrimary :
+      //               modelData.urgent && urgentBlink ? root.theme.accentRed : root.theme.bgSurface
 
-            Behavior on color {
-              ColorAnimation { duration: 150 }
-            }
+      //       Behavior on color {
+      //         ColorAnimation { duration: 150 }
+      //       }
 
-            SequentialAnimation {
-              loops: Animation.Infinite
-              running: wsPill.modelData.urgent && !wsPill.modelData.focused
+      //       SequentialAnimation {
+      //         loops: Animation.Infinite
+      //         running: wsPill.modelData.urgent && !wsPill.modelData.focused
 
-              PropertyAction { target: wsPill; property: "urgentBlink"; value: true }
-              PauseAnimation { duration: 500 }
-              PropertyAction { target: wsPill; property: "urgentBlink"; value: false }
-              PauseAnimation { duration: 500 }
+      //         PropertyAction { target: wsPill; property: "urgentBlink"; value: true }
+      //         PauseAnimation { duration: 500 }
+      //         PropertyAction { target: wsPill; property: "urgentBlink"; value: false }
+      //         PauseAnimation { duration: 500 }
 
-              onStopped: wsPill.urgentBlink = false
-            }
+      //         onStopped: wsPill.urgentBlink = false
+      //       }
 
-            Text {
-              anchors.centerIn: parent
-              text: wsPill.modelData.id
-              color: wsPill.modelData.focused ? root.theme.bgBase : root.theme.textPrimary
-              font.pixelSize: 11
-              font.family: root.font
-              font.bold: wsPill.modelData.focused
-            }
+      //       Text {
+      //         anchors.centerIn: parent
+      //         text: wsPill.modelData.id
+      //         color: wsPill.modelData.focused ? root.theme.bgBase : root.theme.textPrimary
+      //         font.pixelSize: 11
+      //         font.family: root.font
+      //         font.bold: wsPill.modelData.focused
+      //       }
 
-            MouseArea {
-              anchors.fill: parent
-              onClicked: wsPill.modelData.activate()
-            }
+      //       MouseArea {
+      //         anchors.fill: parent
+      //         onClicked: wsPill.modelData.activate()
+      //       }
 
-            Behavior on width {
-              NumberAnimation { duration: 150 }
-            }
-          }
-        }
-      }
+      //       Behavior on width {
+      //         NumberAnimation { duration: 150 }
+      //       }
+      //     }
+      //   }
+      // }
 
       // Now Playing
       Rectangle {
@@ -397,6 +404,8 @@ PanelWindow {
               }
           }
       }
+
+
     }
 
     // Center section: Window Title (truly centered in bar)
@@ -787,22 +796,20 @@ PanelWindow {
 
       Rectangle {
         height: 24
-        width: notification.implicitWidth + power.implicitWidth + 2
+        width: (notification.visible ? notification.implicitWidth : 0) + (seperator.visible ? seperator.width : 0) +  power.implicitWidth + 2
         radius: 12
         color: root.theme.bgSurface
 
         Row {
-          height: parent.height
-          width: parent.width
-          anchors.verticalCenter: parent.verticalCenter
-          anchors.horizontalCenter: parent.horizontalCenter
-          // spacing: 2
+          anchors.centerIn: parent
 
           // notitfication
           Rectangle {
             id: notification
-            implicitHeight: parent.height
+            implicitHeight: 24
+            // implicitHeight: parent.height
             implicitWidth: 24
+            visible: MenuState.notificationPresent
             radius: 12
             color: "transparent"
 
@@ -816,31 +823,32 @@ PanelWindow {
               color: theme.accentCyan
             }
 
-            MouseArea {
-              anchors.fill: parent
-              onClicked: MenuState.notificationCenterOpen = !MenuState.notificationCenterOpen
-              // onClicked: MenuState.wifiMenuOpen = !MenuState.wifiMenuOpen
-              // property var debugInit: {
-              //   console.log(JSON.stringify(Time));
-              // }
-              // onClicked: notification.centerOpen = !notification.centerOpen
-              // onClicked: console.log(JSON.stringify(MenuState));
-            }
+            // MouseArea {
+            //   anchors.fill: parent
+            //   onClicked: MenuState.notificationCenterOpen = !MenuState.notificationCenterOpen
+            //   // onClicked: MenuState.wifiMenuOpen = !MenuState.wifiMenuOpen
+            //   // property var debugInit: {
+            //   //   console.log(JSON.stringify(Time));
+            //   // }
+            //   // onClicked: notification.centerOpen = !notification.centerOpen
+            //   // onClicked: console.log(JSON.stringify(MenuState));
+            // }
           }
 
           // seperator
           Rectangle {
             id: seperator
-            anchors.verticalCenter: parent.verticalCenter
+            visible: MenuState.notificationPresent
             width: 1
-            height: parent.height - 10
+            height: 14 
+            y: 5
             color: "#45475a"
           }
 
           // poweroff
           Rectangle {
             id: power
-            implicitHeight: parent.height
+            implicitHeight: 24
             implicitWidth: 24
             radius: 12
             color: "transparent"
@@ -848,27 +856,30 @@ PanelWindow {
             Text {
               anchors.verticalCenter: parent.verticalCenter
               anchors.horizontalCenter: parent.horizontalCenter
-              // anchors.fill: parent // Fill the 24xparent.height rectangle
               font.pixelSize: 13
               font.family: root.font
               text: "󰗼"
-              // text: String.fromCodePoint(0xF0493) // "F0493"
               color: theme.accentRed
             }
 
-            MouseArea {
-              anchors.fill: parent
-              onClicked: powermenu.isOpen = !powermenu.isOpen
-              // onClicked: MenuState.wifiMenuOpen = !MenuState.wifiMenuOpen
-              // property var debugInit: {
-              //   console.log(JSON.stringify(Time));
-              // }
-              // onClicked: notification.centerOpen = !notification.centerOpen
-              // onClicked: console.log(JSON.stringify(MenuState));
-            }
+            // MouseArea {
+            //   anchors.fill: parent
+            //   onClicked: powermenu.isOpen = !powermenu.isOpen
+            //   // onClicked: MenuState.wifiMenuOpen = !MenuState.wifiMenuOpen
+            //   // property var debugInit: {
+            //   //   console.log(JSON.stringify(Time));
+            //   // }
+            //   // onClicked: notification.centerOpen = !notification.centerOpen
+            //   // onClicked: console.log(JSON.stringify(MenuState));
+            // }
           }
 
         }
+          MouseArea {
+            anchors.fill: parent
+            onClicked: MenuState.notificationCenterOpen = !MenuState.notificationCenterOpen
+          }
+
       }
 
     }

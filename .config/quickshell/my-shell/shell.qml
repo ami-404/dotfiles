@@ -2,7 +2,7 @@ import Quickshell
 import QtQuick
 import Quickshell.Io
 import "Components"
-import "powermenu" as PowerMenu
+// import "powermenu" as PowerMenu
 import "overview" as Overview
 // import "clock"  as Clock
 import "launcher" as Launcher
@@ -41,7 +41,7 @@ ShellRoot {
       id : launcher
     }
 
-    PowerMenu.PowerMenuWindow { id: powermenu }
+    // PowerMenu.PowerMenuWindow { id: powermenu }
 
     Overview.OverviewWindow {
         id: overview

@@ -148,7 +148,7 @@ Scope {
               hoverEnabled: true
               cursorShape: Qt.PointingHandCursor
               onClicked: { 
-                WallpaperService.changePath("$Home/Pictures/wallpapers/")
+                WallpaperService.changePath("$HOME/Pictures/wallpapers/")
                 WallpaperService.rescan();
               }
             }

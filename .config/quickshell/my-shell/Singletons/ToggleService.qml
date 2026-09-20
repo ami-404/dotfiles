@@ -3,10 +3,17 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import QtQuick
+import Quickshell.Wayland
+
 
 Singleton {
     id: root
     property bool wifiEnabled: true
+    property bool inhibitIdle: false
+
+    function chngIdleState() {
+        inhibitIdle = !inhibitIdle
+    }
 
     function toggleWifi() {
             // const cmd = wifiEnabled ? "off" : "on";
