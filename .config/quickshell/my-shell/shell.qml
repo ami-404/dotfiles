@@ -27,14 +27,14 @@ ShellRoot {
     //   id: notification
     // }
 
-    Bar {
-      id: statusBar
-    }
+    // Bar {
+    //   id: statusBar
+    // }
 
     WifiMenu { }
 
     StatusBar {
-      id: status_bar
+      id: statusBar
     }
 
     Launcher.AppLauncher {
