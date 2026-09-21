@@ -2,6 +2,7 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Networking
+import Quickshell.Bluetooth
 import "../Singletons"
 
 // A separate window layer that sits on top of your desktop
@@ -9,13 +10,13 @@ Scope {
     id: root
 
     property var theme: DefaultTheme {}
-    readonly property var network: QsServices.Network
+    // readonly property var network: QsServices.Network
 
 
     // Only instantiate the heavy UI when the user clicks the button
     LazyLoader {
         // active: true
-        active: MenuState.wifiMenuOpen
+        active: MenuState.activePanel === "wifi"
         
         PanelWindow {
             anchors.top: true
@@ -24,9 +25,9 @@ Scope {
             margins.right: 10
             color: "Transparent"
             
-            width: 300
-            height: 400
-            exclusionMode: ExclusionMode.None // Ensures it floats OVER windows
+            implicitWidth: 300
+            implicitHeight: 400
+            // exclusionMode: ExclusionMode.None // Ensures it floats OVER windows
 
             Rectangle {
                 id: networkPanel
@@ -40,100 +41,197 @@ Scope {
                     anchors.fill: parent
                     // spacing: 2
 
-                    // Header
-                    Row {
-                        Layout.fillWidth: true
-                        anchors.top: parent.top
-                        spacing: 10
+                    ColumnLayout {
+                        height: parent.height / 2
+                        Layout.alignment: Qt.AlignTop
 
-                        Rectangle {
-                            width: 36
-                            height: 36
+                        // Header
+                        Row {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignTop
+                            spacing: 10
 
-                            Text {
-                                text: {
-                                if (SystemInfo.networkType === "ethernet") return "󰈀"
-                                if (SystemInfo.networkType === "wifi") return "󰖩"
-                                return "󰖪"
+                            Rectangle {
+                                width: 36
+                                height: 36
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    font.pixelSize: 34
+                                    text: {
+                                    if (SystemInfo.networkType === "ethernet") return "󰈀"
+                                    if (SystemInfo.networkType === "wifi") return "󰖩"
+                                    return "󰖪"
+                                    }
+                                }
+                            }
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 2
+
+                                Text {
+                                    text: "WiFi Networks"
+                                    font.family: "Inter"
+                                    font.pixelSize: 15
+                                    font.weight: Font.Bold
+                                    color: root.theme.accentPrimary
+                                }
+
+                                Text {
+                                    // text: network.active ? network.active.ssid : "Not connected"
+                                    text: SystemInfo.networkInfo
+                                    font.family: "Inter"
+                                    font.pixelSize: 11
+                                    color: root.theme.accentPrimary
+                                }
+                            }
+
+                            // rescan button
+                            Rectangle {
+                                width: 24; height: 24; radius: 12
+                                Text {
+                                text: "󰑐"
+                                font.pixelSize: 15
+                                anchors.centerIn: parent
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    // onClicked: ToggleService.toggleWifi()
+                                    onClicked: ToggleService.scanWifi()
+                                }
+                            }
+
+                            // toggle button
+                            Rectangle {
+                                width: 44; height: 24; radius: 12
+                                Rectangle {
+                                    width: 18; height: 18; radius: 9
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    x: Networking.wifiEnabled ? parent.width - width - 3 : 3
+                                    color: root.theme.accentPrimary
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    // onClicked: ToggleService.toggleWifi()
+                                    onClicked: Networking.wifiEnabled = !Networking.wifiEnabled
                                 }
                             }
                         }
 
                         ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: 2
+                            Repeater {
+                                model: Networking.devices
+                                delegate: ColumnLayout {
+                                    Text { text: "Device Name: " + modelData.name; color: root.theme.accentPrimary }
 
-                            Text {
-                                text: "WiFi Networks"
-                                font.family: "Inter"
-                                font.pixelSize: 15
-                                font.weight: Font.Bold
-                                color: root.theme.accentPrimary
-                            }
-
-                            Text {
-                                // text: network.active ? network.active.ssid : "Not connected"
-                                text: SystemInfo.networkInfo
-                                font.family: "Inter"
-                                font.pixelSize: 11
-                                color: root.theme.accentPrimary
-                            }
-                        }
-
-                        // rescan button
-                        Rectangle {
-                            width: 24; height: 24; radius: 12
-                            Text {
-                              text: "󰑐"
-                              font.pixelSize: 15
-                              anchors.centerIn: parent
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                // onClicked: ToggleService.toggleWifi()
-                                onClicked: ToggleService.scanWifi()
-                            }
-                        }
-
-                        // toggle button
-                        Rectangle {
-                            width: 44; height: 24; radius: 12
-                            Rectangle {
-                                width: 18; height: 18; radius: 9
-                                anchors.verticalCenter: parent.verticalCenter
-                                x: Networking.wifiEnabled ? parent.width - width - 3 : 3
-                                color: root.theme.accentPrimary
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                // onClicked: ToggleService.toggleWifi()
-                                onClicked: Networking.wifiEnabled = !Networking.wifiEnabled
+                                    // If it's a Wi-Fi device, you can list available networks
+                                    Repeater {
+                                        model: modelData.networks
+                                        delegate: Text {
+                                            text: modelData.name + (modelData.connected ? " (Connected)" : "")
+                                            color: root.theme.accentPrimary
+                                            
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                onClicked: {
+                                                    if (!modelData.connected) {
+                                                        modelData.connect()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
 
                     ColumnLayout {
-                        Repeater {
-                            model: Networking.devices
-                            delegate: ColumnLayout {
-                                Text { text: "Device Name: " + modelData.name; color: root.theme.accentPrimary }
+                        height: parent.height / 2
+                        anchors.verticalCenter: parent
+                        
+                        Row {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignTop
+                            spacing: 10
 
-                                // If it's a Wi-Fi device, you can list available networks
-                                Repeater {
-                                    model: modelData.networks
-                                    delegate: Text {
-                                        text: modelData.name + (modelData.connected ? " (Connected)" : "")
-                                        color: root.theme.accentPrimary
-                                        
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                if (!modelData.connected) {
-                                                    modelData.connect()
-                                                }
-                                            }
+                            Rectangle {
+                                width: 36
+                                height: 36
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    font.pixelSize: 34
+                                    text: {
+                                        if (SystemInfo.bluetoothStatus === "disabled") return "󰂲" // Bluetooth disabled icon
+                                        if (SystemInfo.bluetoothStatus === "connected") return "󰂱" // Bluetooth connected icon
+                                        return "󰂯" // Bluetooth disconnected/on icon
+                                    }
+                                }
+                            }
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 2
+
+                                Text {
+                                    text: "Bluetooth"
+                                    font.family: "Inter"
+                                    font.pixelSize: 15
+                                    font.weight: Font.Bold
+                                    color: root.theme.accentPrimary
+                                }
+
+                                Text {
+                                    // text: network.active ? network.active.ssid : "Not connected"
+                                    text: SystemInfo.bluetoothInfo
+                                    font.family: "Inter"
+                                    font.pixelSize: 11
+                                    color: root.theme.accentPrimary
+                                }
+                            }
+
+                            // rescan button
+                            Rectangle {
+                                width: 24; height: 24; radius: 12
+                                Text {
+                                    text: "󰑐"
+                                    font.pixelSize: 15
+                                    anchors.centerIn: parent
+                                    color: (Bluetooth.defaultAdapter && Bluetooth.defaultAdapter.enabled) ? root.theme.accentPrimary : "#555555" 
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: { if (Bluetooth.defaultAdapter && Bluetooth.defaultAdapter.enabled) {
+                                        Bluetooth.defaultAdapter.discovering = true
+                                    }
+                                    }
+                                }
+                            }
+
+                            // toggle button
+                            Rectangle {
+                                width: 44; height: 24; radius: 12
+                                Rectangle {
+                                    width: 18; height: 18; radius: 9
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    x: (Bluetooth.defaultAdapter && Bluetooth.defaultAdapter.enabled) ? parent.width - width - 3 : 3
+                                    color: (Bluetooth.defaultAdapter && Bluetooth.defaultAdapter.enabled) ? "#ffffff" : "#aaaaaa"
+                                    
+                                    Behavior on x { NumberAnimation { duration: 150 } } // Smooth slide animation
+
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    // onClicked: ToggleService.toggleWifi()
+                                    onClicked: {
+                                        if (Bluetooth.defaultAdapter) {
+                                            Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled
                                         }
                                     }
                                 }

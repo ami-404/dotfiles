@@ -33,9 +33,9 @@ ShellRoot {
 
     WifiMenu { }
 
-    // StatusBar.Bar {
-    //   id: status_bar
-    // }
+    StatusBar {
+      id: status_bar
+    }
 
     Launcher.AppLauncher {
       id : launcher

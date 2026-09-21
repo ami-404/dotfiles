@@ -10,7 +10,7 @@ import "../config.js" as Config
 
 Scope {
   id: root
-  property bool centerOpen: MenuState.notificationCenterOpen
+  property bool centerOpen: MenuState.activePanel === "notification"
   // centerOpen: 
 
   // property var debugInit: {
@@ -135,7 +135,7 @@ Scope {
   PanelWindow {
     visible: root.centerOpen
     anchors { top: true; right: true }
-    margins { top: 30; right: 12 }
+    margins { top: 29; right: 4 }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
     implicitWidth: 380

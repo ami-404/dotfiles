@@ -1,6 +1,6 @@
 import Quickshell
 import Quickshell.Wayland
-import Quickshell.Hyprland // <-- Added native Hyprland integration
+import Quickshell.Hyprland 
 import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
@@ -24,7 +24,7 @@ PanelWindow {
     }
 
     margins {
-				top: 8
+        top: 8
     }
 
 

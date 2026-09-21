@@ -3,14 +3,14 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import QtQuick
+import Quickshell.Networking
+import Quickshell.Bluetooth
 
 Singleton {
   id: root
 
   property string cpuUsage: "0%"
   property string memoryUsage: "0%"
-  property string networkInfo: "Disconnected"
-  property string networkType: "disconnected"
   property int batteryLevelRaw: 0
   property string batteryLevel: "0%"
   property string batteryIcon: "󰂎"
@@ -44,22 +44,75 @@ Singleton {
   }
 
   // Network Info (ethernet takes priority over wifi)
-  Process {
-    id: netProc
-    command: ["sh", "-c", "eth=$(nmcli -t -f type,state dev 2>/dev/null | grep '^ethernet:connected'); if [ -n \"$eth\" ]; then echo 'ethernet:Ethernet'; else wifi=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2); if [ -n \"$wifi\" ]; then echo \"wifi:$wifi\"; else echo 'disconnected:'; fi; fi"]
-    running: true
-
-    stdout: StdioCollector {
-      onStreamFinished: {
-        const result = text.trim()
-        const colonIdx = result.indexOf(':')
-        const type = result.substring(0, colonIdx)
-        const info = result.substring(colonIdx + 1)
-        root.networkType = type
-        root.networkInfo = info || "Disconnected"
-      }
-    }
+  readonly property var networkDevices: Networking.devices ? Networking.devices.values : []
+  readonly property bool isEthernetConnected: {
+    return networkDevices.some(device => 
+      device.type === DeviceType.Wired && device.connected
+    )
   }
+  readonly property var connectedWifiNetwork: {
+    const wifiDevice = networkDevices.find(device => device.type === DeviceType.Wifi && device.connected);
+    if (!wifiDevice || !wifiDevice.networks) return null;
+    return wifiDevice.networks.values.find(net => net.connected);
+  }
+  property string networkType: {
+    if (isEthernetConnected) return "ethernet";
+    else if (connectedWifiNetwork) return "wifi";
+    else return "disconnected";
+  }
+  property string networkInfo: {
+    if (isEthernetConnected) return "Ethernet";
+    if (connectedWifiNetwork) return connectedWifiNetwork.name;
+    return "Disconnected";
+  }
+
+
+
+  // Bluetooth Info
+  property var bluetoothState: toString(Bluetooth.state)
+  readonly property var bluetoothDevices: Bluetooth.devices ? Bluetooth.devices.values : []
+
+  readonly property bool isBluetoothConnected: bluetoothDevices.length > 0
+
+  readonly property var primaryBluetoothDevice: {
+      // Finds the first connected device if any exist
+      return isBluetoothConnected ? bluetoothDevices[0] : null
+  }
+
+  property string bluetoothStatus: {
+      if (!Bluetooth.defaultAdapter || !Bluetooth.defaultAdapter.enabled) return "disabled";
+      if (isBluetoothConnected) return "connected";
+      return "disconnected";
+  }
+
+  property string bluetoothInfo: {
+      if (!Bluetooth.defaultAdapter || !Bluetooth.defaultAdapter.enabled) return "Disabled";
+      if (isBluetoothConnected && primaryBluetoothDevice) {
+          // You can use .name (user alias) or .deviceName (hardware name)
+          return primaryBluetoothDevice.name; 
+      }
+      return "Disconnected";
+  }
+
+
+
+
+  // Process {
+  //   id: netProc
+  //   command: ["sh", "-c", "eth=$(nmcli -t -f type,state dev 2>/dev/null | grep '^ethernet:connected'); if [ -n \"$eth\" ]; then echo 'ethernet:Ethernet'; else wifi=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2); if [ -n \"$wifi\" ]; then echo \"wifi:$wifi\"; else echo 'disconnected:'; fi; fi"]
+  //   running: false
+
+  //   stdout: StdioCollector {
+  //     onStreamFinished: {
+  //       const result = text.trim()
+  //       const colonIdx = result.indexOf(':')
+  //       const type = result.substring(0, colonIdx)
+  //       const info = result.substring(colonIdx + 1)
+  //       root.networkType = type
+  //       root.networkInfo = info || "Disconnected"
+  //     }
+  //   }
+  // }
 
   // Battery
   Process {
@@ -106,16 +159,16 @@ Singleton {
   }
 
   // Update timer
-  Timer {
-    interval: 2000
-    running: true
-    repeat: true
-    onTriggered: {
-      // cpuProc.running = true
-      // memProc.running = true
-      netProc.running = true
-      // batteryProc.running = true
-      // tempProc.running = true
-    }
-  }
+  // Timer {
+  //   interval: 2000
+  //   running: true
+  //   repeat: true
+  //   onTriggered: {
+  //     // cpuProc.running = true
+  //     // memProc.running = true
+  //     netProc.running = true
+  //     // batteryProc.running = true
+  //     // tempProc.running = true
+  //   }
+  // }
 }

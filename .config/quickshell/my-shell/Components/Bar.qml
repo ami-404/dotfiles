@@ -32,8 +32,8 @@ PanelWindow {
 
   implicitHeight: 25
   // color: root.theme.bgBase
-  // color: "transparent"
-  color: launcher.isOpen || wallpaper.isPanelOpen ? "#88000000" :  "transparent"
+  color: "transparent"
+  // color: launcher.isOpen || wallpaper.isPanelOpen ? "#88000000" :  "transparent"
 
   property var theme: DefaultTheme {}
   property string font: "Hack Nerd Font"
@@ -165,7 +165,7 @@ PanelWindow {
         }
       }
 
-      // Time
+      // Clock
       Rectangle {
         height: 24
         width: timeDate.width + 16
@@ -296,58 +296,113 @@ PanelWindow {
       // }
 
       // Now Playing
+      // Now Playing + Cava
       Rectangle {
-        height: 24
-        width: nowPlayingContent.width + 16
-        radius: 12
-        color: root.theme.bgSurface
-        visible: root.activePlayer !== null
+          id: nowPlaying
 
-        Accessible.role: Accessible.Button
-        Accessible.name: {
-          if (!root.activePlayer) return "No media";
-          const artist = root.activePlayer.trackArtist || "";
-          const title = root.activePlayer.trackTitle || "";
-          return "Now playing: " + (artist ? artist + " - " : "") + title;
-        }
+          readonly property bool playing:
+              root.activePlayer !== null &&
+              root.activePlayer.playbackState === MprisPlaybackState.Playing
 
-        Row {
-          id: nowPlayingContent
-          anchors.verticalCenter: parent.verticalCenter
-          anchors.left: parent.left
-          anchors.leftMargin: 8
-          spacing: 6
+          visible: playing
 
-          Text {
-            anchors.verticalCenter: parent.verticalCenter
-            text: root.activePlayer && root.activePlayer.isPlaying ? "󰏤" : "󰐊"
-            color: root.theme.accentPrimary
-            font.pixelSize: 14
-            font.family: root.font
-          }
+          height: 24
+          width: nowPlayingContent.width + 16
+          radius: 12
+          color: root.theme.bgSurface
 
-          Text {
-            anchors.verticalCenter: parent.verticalCenter
-            text: {
-              if (!root.activePlayer) return "";
-              const artist = root.activePlayer.trackArtist || "";
-              const title = root.activePlayer.trackTitle || "";
-              return artist ? artist + " - " + title : title;
+          Behavior on width {
+            NumberAnimation {
+              duration: 180
+              easing.type: Easing.OutCubic
             }
-            color: root.theme.textPrimary
-            font.pixelSize: 11
-            font.family: root.font
-            elide: Text.ElideRight
-            width: Math.min(implicitWidth, 200)
           }
-        }
 
-        MouseArea {
-          anchors.fill: parent
-          cursorShape: Qt.PointingHandCursor
-          onClicked: root.activePlayer.togglePlaying()
-        }
+          Accessible.role: Accessible.Button
+          Accessible.name: {
+            if (!root.activePlayer)
+              return "No media";
+
+            const artist = root.activePlayer.trackArtist || "";
+            const title = root.activePlayer.trackTitle || "";
+
+            return "Now playing: " +
+              (artist ? artist + " - " : "") +
+              title;
+          }
+
+          Row {
+              id: nowPlayingContent
+
+              anchors.verticalCenter: parent.verticalCenter
+              anchors.left: parent.left
+              anchors.leftMargin: 8
+
+              spacing: 7
+
+              // Play / pause
+              Text {
+                  anchors.verticalCenter: parent.verticalCenter
+
+                  text: root.activePlayer &&
+                        root.activePlayer.playbackState === MprisPlaybackState.Playing
+                        ? "󰏤"
+                        : "󰐊"
+
+                  color: root.theme.accentPrimary
+                  font.pixelSize: 14
+                  font.family: root.font
+              }
+
+              // Song name
+              Text {
+                  anchors.verticalCenter: parent.verticalCenter
+
+                  text: {
+                      if (!root.activePlayer)
+                          return "";
+
+                      const artist = root.activePlayer.trackArtist || "";
+                      const title = root.activePlayer.trackTitle || "";
+
+                      return artist
+                          ? artist + " - " + title
+                          : title;
+                  }
+
+                  color: root.theme.textPrimary
+                  font.pixelSize: 11
+                  font.family: root.font
+
+                  elide: Text.ElideRight
+                  width: Math.min(implicitWidth, 170)
+              }
+
+              // Cava
+              Item {
+                  id: cavaContainer
+
+                  width: 70
+                  height: 18
+
+                  CavaVisualizer {
+                    anchors.fill: parent
+                    active: nowPlaying.playing
+                  }
+              }
+          }
+
+          MouseArea {
+              anchors.fill: parent
+              cursorShape: Qt.PointingHandCursor
+
+              onClicked: {
+                  if (root.activePlayer)
+                      root.activePlayer.togglePlaying()
+              }
+          }
       }
+
     }
 
     // workspaces
@@ -637,6 +692,10 @@ PanelWindow {
             spacing: 6
 
             Text {
+              text: SystemInfo.bluetoothStatus ? "" : "󰂯"
+            }
+
+            Text {
               anchors.verticalCenter: parent.verticalCenter
               text: {
                 if (SystemInfo.networkType === "ethernet") return "󰈀"
@@ -658,7 +717,7 @@ PanelWindow {
           }
             MouseArea {
               anchors.fill: parent
-              onClicked: MenuState.wifiMenuOpen = !MenuState.wifiMenuOpen
+              onClicked: MenuState.togglePanel("wifi")
             }
         }
 
@@ -794,6 +853,7 @@ PanelWindow {
         }
       }
 
+      // control center
       Rectangle {
         height: 24
         width: (notification.visible ? notification.implicitWidth : 0) + (seperator.visible ? seperator.width : 0) +  power.implicitWidth + 2
@@ -877,7 +937,8 @@ PanelWindow {
         }
           MouseArea {
             anchors.fill: parent
-            onClicked: MenuState.notificationCenterOpen = !MenuState.notificationCenterOpen
+            onClicked: MenuState.togglePanel("notification")
+            // onClicked: MenuState.notificationCenterOpen = !MenuState.notificationCenterOpen
           }
 
       }
